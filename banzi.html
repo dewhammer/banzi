@@ -1981,11 +1981,307 @@
       if (index === 4) {
         setTimeout(fixBusinessModelDuplication, 100);
       }
+
+      // Initialize charts based on the current slide
+      initializeChartsForSlide(index);
     };
     
     // Get slide elements
     const slides = document.querySelectorAll('.slide');
     const body = document.body;
+    
+    // Create chart containers in appropriate slides if they don't exist
+    function setupChartContainers() {
+      // Market Opportunity Slide (index 3)
+      const marketSlide = slides[3];
+      if (marketSlide && !marketSlide.querySelector('#marketChart')) {
+        const chartContainer = document.createElement('div');
+        chartContainer.className = 'chart-container economist-chart';
+        chartContainer.innerHTML = `
+          <div class="chart-title">Global Commodity Market Segments</div>
+          <canvas id="marketChart"></canvas>
+          <div class="chart-source">Source: International Trade Centre, World Bank</div>
+        `;
+        marketSlide.querySelector('.slide-content').appendChild(chartContainer);
+      }
+      
+      // Financial Projections Slide (index 5)
+      const financialSlide = slides[5];
+      if (financialSlide && !financialSlide.querySelector('#financialChart')) {
+        const chartContainer = document.createElement('div');
+        chartContainer.className = 'chart-container economist-chart';
+        chartContainer.innerHTML = `
+          <div class="chart-title">Financial Growth Projections</div>
+          <canvas id="financialChart"></canvas>
+          <div class="chart-source">Source: SCERS/Kommodex Financial Models</div>
+        `;
+        financialSlide.querySelector('.slide-content').appendChild(chartContainer);
+      }
+      
+      // Investment Opportunity Slide (index 10)
+      const investmentSlide = slides[10];
+      if (investmentSlide && !investmentSlide.querySelector('#roiChart')) {
+        const chartContainer = document.createElement('div');
+        chartContainer.className = 'chart-container economist-chart';
+        chartContainer.innerHTML = `
+          <div class="chart-title">Projected ROI Growth</div>
+          <canvas id="roiChart"></canvas>
+          <div class="chart-source">Source: SCERS/Kommodex Investor Projections</div>
+        `;
+        // Add after the first column div
+        const columnDivs = investmentSlide.querySelectorAll('.column');
+        if (columnDivs.length > 0) {
+          columnDivs[0].appendChild(chartContainer);
+        }
+      }
+    }
+    
+    // Initialize charts based on the current slide
+    function initializeChartsForSlide(slideIndex) {
+      // First ensure chart containers exist
+      setupChartContainers();
+      
+      // Market Opportunity Slide (index 3)
+      if (slideIndex === 3) {
+        if (document.getElementById('marketChart')) {
+          // Check if chart already exists and destroy it
+          const existingChart = Chart.getChart('marketChart');
+          if (existingChart) {
+            existingChart.destroy();
+          }
+          
+          // Create Market Opportunity chart (Doughnut chart)
+          const ctx = document.getElementById('marketChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Coffee ($466B)', 'Cocoa ($129B)', 'Superfoods ($275B)', 'Other Agricultural Commodities ($8.83T)'],
+              datasets: [{
+                data: [466, 129, 275, 8830],
+                backgroundColor: [
+                  '#e60000',
+                  '#ff6666',
+                  '#ff9999',
+                  '#ffcccc'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: '50%',
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      if (context.parsed !== null) {
+                        label += new Intl.NumberFormat('en-US', { 
+                          style: 'currency', 
+                          currency: 'USD',
+                          maximumFractionDigits: 0,
+                          notation: 'compact',
+                          compactDisplay: 'short'
+                        }).format(context.parsed);
+                      }
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+      
+      // Financial Projections Slide (index 5)
+      else if (slideIndex === 5) {
+        if (document.getElementById('financialChart')) {
+          // Check if chart already exists and destroy it
+          const existingChart = Chart.getChart('financialChart');
+          if (existingChart) {
+            existingChart.destroy();
+          }
+          
+          // Create Financial Projections chart (Bar and Line chart)
+          const ctx = document.getElementById('financialChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [
+                {
+                  label: 'Revenue ($M)',
+                  data: [6, 7, 8.5, 10, 11.8],
+                  backgroundColor: '#e60000',
+                  order: 1,
+                  yAxisID: 'y'
+                },
+                {
+                  label: 'Net Income ($M)',
+                  data: [1.1, 1.4, 1.9, 2.3, 2.6],
+                  backgroundColor: '#ff9999',
+                  order: 2,
+                  yAxisID: 'y'
+                },
+                {
+                  label: 'Net Margin (%)',
+                  data: [18.3, 20.0, 22.4, 23.0, 23.0],
+                  type: 'line',
+                  borderColor: '#000',
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.4,
+                  order: 0,
+                  yAxisID: 'y1'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Revenue & Net Income ($M)',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: 'right',
+                  grid: {
+                    drawOnChartArea: false
+                  },
+                  title: {
+                    display: true,
+                    text: 'Net Margin (%)',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  min: 0,
+                  max: 30
+                }
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      if (context.parsed.y !== null) {
+                        if (context.dataset.label.includes('%')) {
+                          label += context.parsed.y.toFixed(1) + '%';
+                        } else {
+                          label += '$' + context.parsed.y.toFixed(1) + 'M';
+                        }
+                      }
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+      
+      // Investment Opportunity Slide (index 10)
+      else if (slideIndex === 10) {
+        if (document.getElementById('roiChart')) {
+          // Check if chart already exists and destroy it
+          const existingChart = Chart.getChart('roiChart');
+          if (existingChart) {
+            existingChart.destroy();
+          }
+          
+          // Create ROI chart (Line chart)
+          const ctx = document.getElementById('roiChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [{
+                label: 'Projected ROI (%)',
+                data: [16, 18, 20, 21, 23],
+                borderColor: '#e60000',
+                backgroundColor: 'rgba(230, 0, 0, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'ROI (%)',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  min: 0,
+                  max: 30,
+                  ticks: {
+                    callback: function(value) {
+                      return value + '%';
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = 'ROI: ';
+                      if (context.parsed.y !== null) {
+                        label += context.parsed.y + '%';
+                      }
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+    }
     
     // Create slide container if it doesn't exist
     let slideContainer = document.querySelector('.slide-container');
