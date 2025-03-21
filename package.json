@@ -1,0 +1,29 @@
+{
+  "name": "banzi",
+  "version": "1.0.0",
+  "description": "SCERS/Kommodex pitch deck presentation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dewhammer/banzi.git"
+  },
+  "keywords": [
+    "presentation",
+    "pitch-deck",
+    "SCERS",
+    "Kommodex"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dewhammer/banzi/issues"
+  },
+  "homepage": "https://github.com/dewhammer/banzi#readme",
+  "engines": {
+    "node": ">=14.x"
+  }
+} 
