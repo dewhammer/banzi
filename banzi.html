@@ -766,6 +766,81 @@
       }
     }
     
+    /* Fix for the undefined table headers in portrait mode */
+    @media (max-width: 600px) and (orientation: portrait) {
+      /* Table display for portrait */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 15px 0;
+        width: 100%;
+        font-size: 12px;
+      }
+      
+      /* Make each row a card with its own header labels */
+      tr {
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        background: #fff;
+      }
+      
+      /* Set cell styles */
+      td {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 10px 8px 10px 50% !important;
+        position: relative;
+        text-align: left;
+        min-height: 30px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      
+      /* Create the header label using CSS generated content */
+      td:before {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 45%;
+        white-space: normal;
+        font-weight: bold;
+        color: #555;
+        content: attr(data-label);
+        overflow: hidden;
+        font-size: 11px;
+      }
+      
+      /* Add specific styles for Business Model table (Slide 5) */
+      .slide:nth-child(5) td {
+        padding-left: 45% !important;
+      }
+      
+      .slide:nth-child(5) td:before {
+        width: 40%;
+        white-space: normal;
+        line-height: 1.3;
+      }
+    }
+    
+    /* Additional fix specifically for portrait orientation */
+    @media screen and (max-width: 480px) and (orientation: portrait) {
+      /* Make tables more readable */
+      table {
+        font-size: 11px;
+      }
+      
+      td, th {
+        padding: 8px 6px;
+      }
+      
+      td:before {
+        font-size: 10px;
+      }
+    }
+    
     /* Fix chart container for Market Opportunity slide */
     .chart-container {
       width: 100%;
@@ -1334,29 +1409,29 @@
         <th>% of Revenue</th>
       </tr>
       <tr>
-        <td>Transaction Fees</td>
-        <td>Small fee (0.25-0.5%) on commodity trades conducted on the platform</td>
-        <td>35%</td>
+        <td data-label="Revenue Stream">Transaction Fees</td>
+        <td data-label="Description">Small fee (0.25-0.5%) on commodity trades conducted on the platform</td>
+        <td data-label="% of Revenue">35%</td>
       </tr>
       <tr>
-        <td>Hedging Contracts</td>
-        <td>Fees for specialized hedging instruments (futures, options, forwards)</td>
-        <td>25%</td>
+        <td data-label="Revenue Stream">Hedging Contracts</td>
+        <td data-label="Description">Fees for specialized hedging instruments (futures, options, forwards)</td>
+        <td data-label="% of Revenue">25%</td>
       </tr>
       <tr>
-        <td>Subscription Fees</td>
-        <td>Tiered subscription packages for platform access</td>
-        <td>20%</td>
+        <td data-label="Revenue Stream">Subscription Fees</td>
+        <td data-label="Description">Tiered subscription packages for platform access</td>
+        <td data-label="% of Revenue">20%</td>
       </tr>
       <tr>
-        <td>Value-Added Services</td>
-        <td>Market analysis, risk assessment, and data analytics</td>
-        <td>15%</td>
+        <td data-label="Revenue Stream">Value-Added Services</td>
+        <td data-label="Description">Market analysis, risk assessment, and data analytics</td>
+        <td data-label="% of Revenue">15%</td>
       </tr>
       <tr>
-        <td>Cross-Exchange Listing Fees</td>
-        <td>Fees for commodities listed on global exchanges</td>
-        <td>5%</td>
+        <td data-label="Revenue Stream">Cross-Exchange Listing Fees</td>
+        <td data-label="Description">Fees for commodities listed on global exchanges</td>
+        <td data-label="% of Revenue">5%</td>
       </tr>
     </table>
     
@@ -1380,52 +1455,52 @@
         <th>Year 5</th>
       </tr>
       <tr>
-        <td>Revenue</td>
-        <td>$6M</td>
-        <td>$7M</td>
-        <td>$8.5M</td>
-        <td>$10.0M</td>
-        <td>$11.8M</td>
+        <td data-label="Metric">Revenue</td>
+        <td data-label="Year 1">$6M</td>
+        <td data-label="Year 2">$7M</td>
+        <td data-label="Year 3">$8.5M</td>
+        <td data-label="Year 4">$10.0M</td>
+        <td data-label="Year 5">$11.8M</td>
       </tr>
       <tr>
-        <td>COGS</td>
-        <td>$4.4M</td>
-        <td>$4.9M</td>
-        <td>$5.4M</td>
-        <td>$6.1M</td>
-        <td>$6.8M</td>
+        <td data-label="Metric">COGS</td>
+        <td data-label="Year 1">$4.4M</td>
+        <td data-label="Year 2">$4.9M</td>
+        <td data-label="Year 3">$5.4M</td>
+        <td data-label="Year 4">$6.1M</td>
+        <td data-label="Year 5">$6.8M</td>
       </tr>
       <tr>
-        <td>EBITDA</td>
-        <td>$1.6M</td>
-        <td>$2.0M</td>
-        <td>$2.6M</td>
-        <td>$3.6M</td>
-        <td>$5.0M</td>
+        <td data-label="Metric">EBITDA</td>
+        <td data-label="Year 1">$1.6M</td>
+        <td data-label="Year 2">$2.0M</td>
+        <td data-label="Year 3">$2.6M</td>
+        <td data-label="Year 4">$3.6M</td>
+        <td data-label="Year 5">$5.0M</td>
       </tr>
       <tr>
-        <td>Net Income</td>
-        <td>$1.1M</td>
-        <td>$1.4M</td>
-        <td>$1.9M</td>
-        <td>$2.3M</td>
-        <td>$2.6M</td>
+        <td data-label="Metric">Net Income</td>
+        <td data-label="Year 1">$1.1M</td>
+        <td data-label="Year 2">$1.4M</td>
+        <td data-label="Year 3">$1.9M</td>
+        <td data-label="Year 4">$2.3M</td>
+        <td data-label="Year 5">$2.6M</td>
       </tr>
       <tr>
-        <td>Net Margin</td>
-        <td>18.3%</td>
-        <td>20.0%</td>
-        <td>22.4%</td>
-        <td>23.0%</td>
-        <td>23.0%</td>
+        <td data-label="Metric">Net Margin</td>
+        <td data-label="Year 1">18.3%</td>
+        <td data-label="Year 2">20.0%</td>
+        <td data-label="Year 3">22.4%</td>
+        <td data-label="Year 4">23.0%</td>
+        <td data-label="Year 5">23.0%</td>
       </tr>
       <tr>
-        <td>ROI</td>
-        <td>16.0%</td>
-        <td>18.0%</td>
-        <td>20.0%</td>
-        <td>21.0%</td>
-        <td>23.0%</td>
+        <td data-label="Metric">ROI</td>
+        <td data-label="Year 1">16.0%</td>
+        <td data-label="Year 2">18.0%</td>
+        <td data-label="Year 3">20.0%</td>
+        <td data-label="Year 4">21.0%</td>
+        <td data-label="Year 5">23.0%</td>
       </tr>
     </table>
     
@@ -1460,40 +1535,40 @@
         <th>Indirect Competitors</th>
       </tr>
       <tr>
-        <td>Cross-Exchange Trading</td>
-        <td>Yes</td>
-        <td>No</td>
-        <td>No</td>
+        <td data-label="Feature/Attribute">Cross-Exchange Trading</td>
+        <td data-label="SCERS/Kommodex">Yes</td>
+        <td data-label="Direct Competitors">No</td>
+        <td data-label="Indirect Competitors">No</td>
       </tr>
       <tr>
-        <td>Hedging Tools</td>
-        <td>Comprehensive</td>
-        <td>Limited (if any)</td>
-        <td>Minimal (basic forex only)</td>
+        <td data-label="Feature/Attribute">Hedging Tools</td>
+        <td data-label="SCERS/Kommodex">Comprehensive</td>
+        <td data-label="Direct Competitors">Limited (if any)</td>
+        <td data-label="Indirect Competitors">Minimal (basic forex only)</td>
       </tr>
       <tr>
-        <td>Target Market Focus</td>
-        <td>East African agricultural products</td>
-        <td>Primarily local markets</td>
-        <td>General business customers</td>
+        <td data-label="Feature/Attribute">Target Market Focus</td>
+        <td data-label="SCERS/Kommodex">East African agricultural products</td>
+        <td data-label="Direct Competitors">Primarily local markets</td>
+        <td data-label="Indirect Competitors">General business customers</td>
       </tr>
       <tr>
-        <td>User Support and Training</td>
-        <td>Tailored and ongoing</td>
-        <td>Minimal</td>
-        <td>Limited (mostly banking-focused)</td>
+        <td data-label="Feature/Attribute">User Support and Training</td>
+        <td data-label="SCERS/Kommodex">Tailored and ongoing</td>
+        <td data-label="Direct Competitors">Minimal</td>
+        <td data-label="Indirect Competitors">Limited (mostly banking-focused)</td>
       </tr>
       <tr>
-        <td>Market Data Access</td>
-        <td>Real-time analytics</td>
-        <td>Limited</td>
-        <td>Limited</td>
+        <td data-label="Feature/Attribute">Market Data Access</td>
+        <td data-label="SCERS/Kommodex">Real-time analytics</td>
+        <td data-label="Direct Competitors">Limited</td>
+        <td data-label="Indirect Competitors">Limited</td>
       </tr>
       <tr>
-        <td>Product Range</td>
-        <td>Primary & secondary commodities</td>
-        <td>Primarily staple products</td>
-        <td>General financial products</td>
+        <td data-label="Feature/Attribute">Product Range</td>
+        <td data-label="SCERS/Kommodex">Primary & secondary commodities</td>
+        <td data-label="Direct Competitors">Primarily staple products</td>
+        <td data-label="Indirect Competitors">General financial products</td>
       </tr>
     </table>
     
@@ -2515,6 +2590,299 @@
       const currentSlideIndex = parseInt(document.querySelector('.slide-number')?.textContent.split('/')[0]?.trim() || '1') - 1;
       if (!isNaN(currentSlideIndex) && typeof window.showSlide === 'function') {
         window.showSlide(currentSlideIndex);
+      }
+    }
+  });
+</script>
+
+<script>
+  // Add after your existing DOMContentLoaded script
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create watermark
+    const watermark = document.createElement('div');
+    watermark.className = 'watermark';
+    document.body.appendChild(watermark);
+    
+    // Add chart to financial projections slide
+    const financialSlide = document.querySelectorAll('.slide')[5]; // Adjust index if needed
+    if (financialSlide) {
+      const chartContainer = document.createElement('div');
+      chartContainer.className = 'chart-container economist-chart';
+      chartContainer.innerHTML = '<div class="chart-title">Revenue and Net Income Projection (5-Year)</div><canvas id="financialChart"></canvas><div class="chart-source">Source: SCERS Financial Models, 2023</div>';
+      
+      // Insert chart before the table
+      const table = financialSlide.querySelector('table');
+      if (table) {
+        table.parentNode.insertBefore(chartContainer, table);
+      }
+      
+      // Create financial chart
+      try {
+        const ctx = document.getElementById('financialChart')?.getContext('2d');
+        if (ctx && typeof Chart !== 'undefined') {
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [
+                {
+                  label: 'Revenue ($M)',
+                  backgroundColor: '#e60000',
+                  data: [6, 7, 8.5, 10.0, 11.8],
+                  order: 2
+                },
+                {
+                  label: 'Net Income ($M)',
+                  backgroundColor: '#2f3e75',
+                  data: [1.1, 1.4, 1.9, 2.3, 2.6],
+                  order: 3
+                },
+                {
+                  label: 'Net Margin (%)',
+                  type: 'line',
+                  borderColor: '#000',
+                  backgroundColor: 'transparent',
+                  borderWidth: 2,
+                  pointBackgroundColor: '#000',
+                  data: [18.3, 20.0, 22.4, 23.0, 23.0],
+                  yAxisID: 'y1',
+                  order: 1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Million USD',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                y1: {
+                  position: 'right',
+                  beginAtZero: true,
+                  max: 30,
+                  title: {
+                    display: true,
+                    text: 'Percentage',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  grid: {
+                    drawOnChartArea: false
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += '$' + context.raw + 'M';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('Financial chart creation skipped', e);
+      }
+    }
+    
+    // Add chart to Market Opportunity slide
+    const marketSlide = document.querySelectorAll('.slide')[3]; // Adjust index if needed
+    if (marketSlide) {
+      const pieChartContainer = document.createElement('div');
+      pieChartContainer.className = 'chart-container economist-chart';
+      pieChartContainer.innerHTML = '<div class="chart-title">Global Commodity Market Breakdown</div><canvas id="marketChart"></canvas><div class="chart-source">Source: Global Market Analysis, 2023</div>';
+      
+      // Find the right place to insert the chart
+      const highlightBox = marketSlide.querySelector('.highlight-box');
+      if (highlightBox) {
+        highlightBox.parentNode.insertBefore(pieChartContainer, highlightBox);
+      }
+      
+      // Create market pie chart
+      try {
+        const ctxPie = document.getElementById('marketChart')?.getContext('2d');
+        if (ctxPie && typeof Chart !== 'undefined') {
+          new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+              labels: ['Coffee', 'Cocoa', 'Superfoods', 'Other Agricultural Commodities'],
+              datasets: [{
+                data: [466, 129, 275, 620],
+                backgroundColor: [
+                  '#e60000',
+                  '#2f3e75',
+                  '#ffa500',
+                  '#555555'
+                ],
+                borderColor: '#fff',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += '$' + context.raw + 'B';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('Market chart creation skipped', e);
+      }
+    }
+    
+    // Add ROI chart to Business Model slide
+    const businessSlide = document.querySelectorAll('.slide')[4]; // Adjust index if needed
+    if (businessSlide) {
+      const lineChartContainer = document.createElement('div');
+      lineChartContainer.className = 'chart-container economist-chart';
+      lineChartContainer.innerHTML = '<div class="chart-title">Projected Return on Investment (5-Year)</div><canvas id="roiChart"></canvas><div class="chart-source">Source: SCERS Financial Projections, 2023</div>';
+      
+      // Insert chart after the table
+      const businessTable = businessSlide.querySelector('table');
+      if (businessTable) {
+        businessTable.parentNode.appendChild(lineChartContainer);
+      }
+      
+      // Create ROI line chart
+      try {
+        const ctxLine = document.getElementById('roiChart')?.getContext('2d');
+        if (ctxLine && typeof Chart !== 'undefined') {
+          new Chart(ctxLine, {
+            type: 'line',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [{
+                label: 'Return on Investment (%)',
+                data: [16.0, 18.0, 20.0, 21.0, 23.0],
+                borderColor: '#e60000',
+                backgroundColor: 'rgba(230, 0, 0, 0.1)',
+                borderWidth: 3,
+                pointBackgroundColor: '#e60000',
+                pointBorderColor: '#fff',
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                fill: true,
+                tension: 0.3
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'ROI (%)',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    callback: function(value) {
+                      return value + '%';
+                    },
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += context.parsed.y + '%';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('ROI chart creation skipped', e);
       }
     }
   });
