@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCERS/Kommodex Pitch Deck</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    .slide {
+      box-sizing: border-box;
+      max-width: 900px;
+      width: 90%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 80vh;
+      padding: 30px;
+    }
+    
+    .slide-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #000;
+      border-bottom: 2px solid #e60000;
+      padding-bottom: 10px;
+      font-family: 'Georgia', serif;
+    }
+    
+    .slide-content {
+      font-size: 18px;
+      line-height: 1.7;
+      padding-bottom: 15px;
+    }
+    
+    .two-column {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .column {
+      flex: 0 0 48%;
+    }
+    
+    ul {
+      padding-left: 25px;
+    }
+    
+    li {
+      margin-bottom: 10px;
+    }
+    
+    .highlight-box {
+      background-color: #f8f8f8;
+      border-left: 4px solid #e60000;
+      padding: 15px;
+      margin: 20px 0;
+      font-style: italic;
+    }
+    
+    .metric {
+      text-align: center;
+      padding: 25px;
+      background-color: #f8f8f8;
+      border-radius: 2px;
+      margin: 10px;
+      flex: 1;
+      border-top: 3px solid #e60000;
+    }
+    
+    .metric-value {
+      font-size: 32px;
+      font-weight: bold;
+      color: #000;
+    }
+    
+    .metric-label {
+      font-size: 16px;
+      color: #555;
+    }
+    
+    .metrics-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .quote {
+      font-style: italic;
+      font-size: 20px;
+      color: #333;
+      border-left: 3px solid #e60000;
+      padding-left: 20px;
+      margin: 20px 0;
+      font-family: 'Georgia', serif;
+    }
+    
+    .team-member {
+      display: flex;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    
+    .team-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #ddd;
+      margin-right: 20px;
+    }
+    
+    .team-info {
+      flex: 1;
+    }
+    
+    .team-name {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
+    .team-role {
+      color: #3498db;
+      margin-bottom: 5px;
+    }
+    
+    .team-bio {
+      font-size: 16px;
+    }
+    
+    .chart {
+      width: 100%;
+      height: 300px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-style: italic;
+      color: #777;
+    }
+    
+    .roadmap {
+      position: relative;
+      padding-left: 50px;
+    }
+    
+    .roadmap-item {
+      position: relative;
+      padding-bottom: 30px;
+    }
+    
+    .roadmap-item:before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #e60000;
+      z-index: 2;
+    }
+    
+    .roadmap-item:after {
+      content: "";
+      position: absolute;
+      left: -21px;
+      top: 20px;
+      width: 2px;
+      height: calc(100% - 20px);
+      background-color: #e60000;
+      z-index: 1;
+    }
+    
+    .roadmap-item:last-child:after {
+      display: none;
+    }
+    
+    .roadmap-date {
+      font-weight: bold;
+      color: #e60000;
+      margin-bottom: 5px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-family: 'Georgia', serif;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #f1f1f1;
+      font-weight: bold;
+      color: #000;
+    }
+    
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      margin-top: 40px;
+    }
+    
+    /* Add these new styles for transitions and navigation */
+    .slide-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      padding-top: 70px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    
+    .slide {
+      position: absolute;
+      width: 90%;
+      max-width: 900px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      margin: 0;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      padding-top: 25px;
+    }
+    
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, calc(-50% + 40px));
+      z-index: 2;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .navigation {
+      position: fixed;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 100;
+    }
+    
+    .nav-btn {
+      background-color: #e60000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      border-radius: 3px;
+      transition: background-color 0.3s;
+    }
+    
+    .nav-btn:hover {
+      background-color: #b30000;
+    }
+    
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background-color: #e60000;
+      z-index: 100;
+      transition: width 0.3s;
+    }
+    
+    .slide-number {
+      position: fixed;
+      bottom: 65px;
+      right: 15px;
+      font-family: 'Georgia', serif;
+      font-size: 14px;
+      color: #666;
+      z-index: 100;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+    
+    /* Economist-style header */
+    .economist-header {
+      background-color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      z-index: 90;
+      font-family: 'Georgia', serif;
+    }
+    
+    .economist-logo {
+      color: #e60000;
+      font-weight: bold;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    
+    .presentation-title {
+      font-size: 16px;
+      color: #333;
+    }
+    
+    /* Content adjustments to match Economist style */
+    h3 {
+      font-family: 'Georgia', serif;
+      color: #000;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+    
+    li {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    
+    /* Add red emphasis for key data points */
+    .emphasis {
+      color: #e60000;
+      font-weight: bold;
+    }
+    
+    /* Adjust slide container to account for header */
+    .slide-container {
+      padding-top: 80px;
+    }
+    
+    /* Chart container styling */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      margin: 25px 0;
+    }
+    
+    /* Economic chart specific styling */
+    .economist-chart {
+      background-color: #f9f9f9;
+      border: 1px solid #eaeaea;
+      padding: 15px;
+    }
+    
+    .chart-title {
+      font-family: 'Georgia', serif;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .chart-source {
+      font-family: 'Georgia', serif;
+      font-size: 12px;
+      font-style: italic;
+      text-align: right;
+      color: #777;
+      margin-top: 10px;
+    }
+    
+    /* Add a watermark overlay */
+    .watermark {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="0" y="20" transform="rotate(45 50,50)" font-family="Arial" font-size="20" fill="%23000">CONFIDENTIAL SCERS/KOMMODEX</text></svg>') repeat;
+    }
+    
+    /* Restart button styling */
+    .restart-btn {
+      display: block;
+      margin: 30px auto 10px;
+      background-color: #e60000;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .restart-btn:hover {
+      background-color: #b30000;
+    }
+    
+    /* Responsive design improvements */
+    @media (max-width: 1024px) {
+      .slide {
+        padding: 30px;
+        width: 95%;
+      }
+      
+      .slide-title {
+        font-size: 24px;
+      }
+      
+      .slide-content {
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .two-column {
+        flex-direction: column;
+      }
+      
+      .column {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+      }
+      
+      .navigation {
+        bottom: 20px;
+      }
+      
+      .nav-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+      
+      .chart-container {
+        height: 250px;
+      }
+      
+      .economist-header {
+        padding: 0 15px;
+        height: 50px;
+      }
+      
+      .economist-logo {
+        font-size: 16px;
+      }
+      
+      .presentation-title {
+        font-size: 14px;
+      }
+      
+      .slide-number {
+        bottom: 60px;
+        right: 10px;
+        font-size: 12px;
+      }
+      
+      @media (max-width: 480px) {
+        .slide table {
+          white-space: normal;
+        }
+        
+        /* Allow table to be scrolled horizontally instead of converting to cards */
+        table, thead, tbody, th, td, tr {
+          display: revert;
+        }
+        
+        /* Add visual cue for scrollable tables */
+        .slide table::after {
+          content: '← Scroll →';
+          display: block;
+          text-align: center;
+          font-size: 12px;
+          color: #777;
+          font-style: italic;
+          padding: 5px 0;
+        }
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .slide {
+        padding: 25px 15px;
+        width: 95%;
+        box-sizing: border-box;
+      }
+      
+      .slide-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+      }
+      
+      .slide-content {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      
+      h3 {
+        font-size: 16px;
+      }
+      
+      .team-member {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .team-photo {
+        margin: 0 auto 15px;
+      }
+      
+      .chart-container {
+        height: 250px !important;
+        margin: 20px 0;
+      }
+      
+      table {
+        font-size: 11px;
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+      }
+      
+      th, td {
+        padding: 8px 10px;
+      }
+      
+      .metrics-container {
+        flex-direction: column;
+      }
+      
+      .metric {
+        margin: 5px 0;
+      }
+      
+      .nav-btn {
+        margin: 0 5px;
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      
+      .roadmap {
+        padding-left: 30px;
+      }
+      
+      .roadmap-item:before {
+        left: -20px;
+        width: 15px;
+        height: 15px;
+      }
+      
+      .roadmap-item:after {
+        left: -13px;
+      }
+      
+      .chart-source {
+        padding-bottom: 10px;
+      }
+    }
+    
+    /* Fix for chart responsiveness */
+    .chart-container {
+      position: relative;
+      width: 100%;
+    }
+    
+    /* Fix slide container height for better mobile experience */
+    @media (max-height: 700px) {
+      .slide.active {
+        transform: translate(-50%, -45%);
+        margin-bottom: 60px !important;
+      }
+    }
+    
+    /* Ensure slides are scrollable on very small screens */
+    @media (max-height: 500px) {
+      .slide-container {
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .slide {
+        position: relative;
+        transform: none;
+        left: auto;
+        top: auto;
+        margin: 70px auto 20px;
+        max-height: none;
+      }
+      
+      .slide.active {
+        transform: none;
+      }
+    }
+    
+    /* Touch-friendly improvements */
+    @media (hover: none) and (pointer: coarse) {
+      .nav-btn {
+        padding: 12px 20px; /* Larger touch targets */
+        margin: 0 10px;
+      }
+      
+      /* Add visual indicator for swipe */
+      .swipe-indicator {
+        position: fixed;
+        bottom: 70px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: #666;
+        font-size: 12px;
+        opacity: 0.7;
+        font-style: italic;
+        font-family: 'Georgia', serif;
+        pointer-events: none;
+      }
+    }
+    
+    /* Additional responsive improvements */
+    @media (max-width: 768px) and (orientation: portrait) {
+      /* Better vertical spacing for portrait mode */
+      .slide {
+        padding: 25px 20px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      
+      .chart-container {
+        height: 220px;
+      }
+      
+      /* Make charts more readable on portrait orientation */
+      .economist-chart {
+        padding: 10px;
+      }
+      
+      .chart-title {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      
+      /* Make navigation buttons stick to bottom */
+      .navigation {
+        position: fixed;
+        bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 0;
+        width: 100%;
+        left: 0;
+        right: 0;
+      }
+    }
+    
+    /* Improve vertical scrolling for small screens */
+    @media (max-height: 600px) {
+      .slide {
+        margin-top: 80px !important;
+      }
+      
+      .slide.active {
+        transform: none !important;
+      }
+      
+      .slide-container {
+        overflow-y: auto;
+        height: auto;
+      }
+      
+      .navigation {
+        position: sticky;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 0;
+      }
+    }
+    
+    /* Make restart button more prominent */
+    .restart-btn {
+      display: block;
+      margin: 30px auto 20px;
+      background-color: #e60000;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .restart-btn:hover {
+      background-color: #b30000;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* Responsive tables for small screens */
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      
+      tr {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+      }
+      
+      td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+      }
+      
+      td:before {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+      }
+    }
+    
+    /* Fix chart container for Market Opportunity slide */
+    .chart-container {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+      margin: 25px auto !important;
+    }
+    
+    /* Ensure proper chart rendering and containment */
+    #marketChart {
+      max-width: 100% !important;
+      height: auto !important;
+      max-height: 350px !important;
+    }
+    
+    .economist-chart {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      border-radius: 2px;
+    }
+    
+    /* Specific fix for slide 4 chart container */
+    .slide:nth-child(4) .chart-container {
+      height: auto !important;
+      min-height: 400px !important;
+      overflow: visible;
+      margin: 30px auto !important;
+      padding: 0;
+    }
+    
+    /* Ensure the chart canvas has enough room */
+    #marketChart {
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: 350px !important;
+      margin: 0 auto;
+    }
+    
+    /* Ensure the chart source has proper spacing */
+    .slide:nth-child(4) .chart-source {
+      margin-top: 20px;
+      padding-bottom: 10px;
+    }
+    
+    /* Styling for scrollbars (Webkit browsers) */
+    .slide::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .slide::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    .slide::-webkit-scrollbar-thumb {
+      background: #e60000;
+      border-radius: 3px;
+    }
+    
+    /* Specific fixes for slide 5 (Business Model) */
+    .slide:nth-child(5) .slide-content {
+      padding-bottom: 25px;
+    }
+    
+    /* Ensure chart containers don't overflow */
+    .chart-container canvas {
+      max-width: 100% !important;
+    }
+    
+    /* Ensure slide 4 has extra space for the chart */
+    .slide:nth-child(4) {
+      padding-bottom: 40px;
+    }
+    
+    .slide:nth-child(4) .slide-content {
+      padding-bottom: 20px;
+    }
+    
+    /* Adjust highlight box to avoid overlapping with chart */
+    .slide:nth-child(4) .highlight-box {
+      margin-top: 30px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+<div class="economist-header">
+  <div class="economist-logo">SCERS/KOMMODEX</div>
+  <div class="presentation-title">Strategic Commodity Exchange & Risk Stabilizer</div>
+</div>
+
+<!-- Slide 1: Title -->
+<div class="slide">
+  <div class="slide-title">SCERS/Kommodex</div>
+  <div class="slide-content">
+    <div class="highlight-box">
+      <p><strong>Strategic Commodity Exchange & Risk Stabilizer</strong></p>
+      <p>Transforming commodity trade through a revolutionary digital platform that stabilizes markets, mitigates forex risks, and creates a sustainable trading ecosystem.</p>
+    </div>
+    <p>Presented by Deogratius W. Rutabanzibwa, Founder & CEO</p>
+  </div>
+</div>
+
+<!-- Slide 2: Problem Statement -->
+<div class="slide">
+  <div class="slide-title">The Problem We Solve</div>
+  <div class="slide-content">
+    <div class="two-column">
+      <div class="column">
+        <h3>African Economies Face Critical Challenges:</h3>
+        <ul>
+          <li><strong>Forex Shortages:</strong> Limited access to US dollars constrains international trade</li>
+          <li><strong>Price Volatility:</strong> Unpredictable commodity prices create uncertainty for producers</li>
+          <li><strong>Limited Market Access:</strong> Producers struggle to reach global markets efficiently</li>
+          <li><strong>High Transaction Costs:</strong> Current systems are expensive and inefficient</li>
+        </ul>
+      </div>
+      <div class="column">
+        <div class="highlight-box">
+          <p>"African economies, including Tanzania, face liquidity challenges due to forex shortages, price volatility, and limited market access for agricultural producers."</p>
+        </div>
+        <p>These challenges result in:</p>
+        <ul>
+          <li>Revenue loss of up to 40% due to price volatility</li>
+          <li>Transaction fees of 3-5% that reduce producer income</li>
+          <li>Missed opportunities for premium pricing in global markets</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Solution -->
+<div class="slide">
+  <div class="slide-title">Our Solution: SCERS/Kommodex</div>
+  <div class="slide-content">
+    <p>A revolutionary digital platform that integrates:</p>
+    
+    <div class="two-column">
+      <div class="column">
+        <h3>Core Features:</h3>
+        <ul>
+          <li><strong>Commodity Basket-Based Index System</strong> ensuring stable pricing and structured trade flows</li>
+          <li><strong>Advanced Hedging Tools</strong> to mitigate forex and commodity price risks</li>
+          <li><strong>Cross-Exchange Listings</strong> for enhanced market access and liquidity</li>
+          <li><strong>Blockchain-Enabled Security</strong> for transparent and secure transactions</li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>Unique Advantages:</h3>
+        <ul>
+          <li><strong>Reduces Foreign Currency Dependency</strong> for cross-border trade</li>
+          <li><strong>Tokenized Commodity-Linked Indices</strong> for efficient trading</li>
+          <li><strong>Self-Sustaining Ecosystem</strong> through reinvestment in fertilizer sales</li>
+          <li><strong>Carbon Credit Trading</strong> for additional revenue streams</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      "SCERS aligns currency risk management with economic fundamentals while ensuring a profitable, structured, and sustainable market for investors and stakeholders."
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Market Opportunity -->
+<div class="slide">
+  <div class="slide-title">Market Opportunity</div>
+  <div class="slide-content">
+    <div class="two-column">
+      <div class="column">
+        <h3>Global Commodity Market:</h3>
+        <ul>
+          <li>Valued at <strong>$9.7-30 trillion</strong></li>
+          <li>Coffee market: <strong>$466 billion</strong></li>
+          <li>Cocoa market: <strong>$129 billion</strong></li>
+          <li>Superfoods market: <strong>$275 billion by 2025</strong></li>
+          <li>6-10% annual growth rate</li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>African Agricultural Potential:</h3>
+        <ul>
+          <li>Africa accounts for <strong>60%</strong> of world's arable land</li>
+          <li>East Africa exports <strong>17%</strong> of world's coffee</li>
+          <li>Premium potential: 15-20% higher prices for organic products</li>
+          <li>Secondary crops (baobab, fonio, etc.) growing at <strong>13.6% CAGR</strong></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      <p>Our platform bridges critical market gaps in commodity trading, forex risk management, and financial inclusion - creating a <strong>$500 million to $1 billion</strong> serviceable obtainable market within the first five years.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Business Model -->
+<div class="slide">
+  <div class="slide-title">Business Model</div>
+  <div class="slide-content">
+    <h3>Multiple Revenue Streams:</h3>
+    
+    <table>
+      <tr>
+        <th>Revenue Stream</th>
+        <th>Description</th>
+        <th>% of Revenue</th>
+      </tr>
+      <tr>
+        <td>Transaction Fees</td>
+        <td>Small fee (0.25-0.5%) on commodity trades conducted on the platform</td>
+        <td>35%</td>
+      </tr>
+      <tr>
+        <td>Hedging Contracts</td>
+        <td>Fees for specialized hedging instruments (futures, options, forwards)</td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <td>Subscription Fees</td>
+        <td>Tiered subscription packages for platform access</td>
+        <td>20%</td>
+      </tr>
+      <tr>
+        <td>Value-Added Services</td>
+        <td>Market analysis, risk assessment, and data analytics</td>
+        <td>15%</td>
+      </tr>
+      <tr>
+        <td>Cross-Exchange Listing Fees</td>
+        <td>Fees for commodities listed on global exchanges</td>
+        <td>5%</td>
+      </tr>
+    </table>
+    
+    <div class="highlight-box">
+      <p>Our hybridized model combines subscription, transaction, and service fees to create sustainable revenue while keeping costs competitive for users.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Financial Projections -->
+<div class="slide">
+  <div class="slide-title">Financial Projections</div>
+  <div class="slide-content">
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Year 1</th>
+        <th>Year 2</th>
+        <th>Year 3</th>
+        <th>Year 4</th>
+        <th>Year 5</th>
+      </tr>
+      <tr>
+        <td>Revenue</td>
+        <td>$6M</td>
+        <td>$7M</td>
+        <td>$8.5M</td>
+        <td>$10.0M</td>
+        <td>$11.8M</td>
+      </tr>
+      <tr>
+        <td>COGS</td>
+        <td>$4.4M</td>
+        <td>$4.9M</td>
+        <td>$5.4M</td>
+        <td>$6.1M</td>
+        <td>$6.8M</td>
+      </tr>
+      <tr>
+        <td>EBITDA</td>
+        <td>$1.6M</td>
+        <td>$2.0M</td>
+        <td>$2.6M</td>
+        <td>$3.6M</td>
+        <td>$5.0M</td>
+      </tr>
+      <tr>
+        <td>Net Income</td>
+        <td>$1.1M</td>
+        <td>$1.4M</td>
+        <td>$1.9M</td>
+        <td>$2.3M</td>
+        <td>$2.6M</td>
+      </tr>
+      <tr>
+        <td>Net Margin</td>
+        <td>18.3%</td>
+        <td>20.0%</td>
+        <td>22.4%</td>
+        <td>23.0%</td>
+        <td>23.0%</td>
+      </tr>
+      <tr>
+        <td>ROI</td>
+        <td>16.0%</td>
+        <td>18.0%</td>
+        <td>20.0%</td>
+        <td>21.0%</td>
+        <td>23.0%</td>
+      </tr>
+    </table>
+    
+    <div class="metrics-container">
+      <div class="metric">
+        <div class="metric-value">~13%</div>
+        <div class="metric-label">CAGR (Revenue)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">26.7% → 42.4%</div>
+        <div class="metric-label">EBITDA Margin Growth</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">50 → 500+</div>
+        <div class="metric-label">Client Growth (Year 1-5)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Competitive Advantage -->
+<div class="slide">
+  <div class="slide-title">Competitive Advantage</div>
+  <div class="slide-content">
+    <h3>Key Differentiators:</h3>
+    
+    <table>
+      <tr>
+        <th>Feature/Attribute</th>
+        <th>SCERS/Kommodex</th>
+        <th>Direct Competitors</th>
+        <th>Indirect Competitors</th>
+      </tr>
+      <tr>
+        <td>Cross-Exchange Trading</td>
+        <td>Yes</td>
+        <td>No</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>Hedging Tools</td>
+        <td>Comprehensive</td>
+        <td>Limited (if any)</td>
+        <td>Minimal (basic forex only)</td>
+      </tr>
+      <tr>
+        <td>Target Market Focus</td>
+        <td>East African agricultural products</td>
+        <td>Primarily local markets</td>
+        <td>General business customers</td>
+      </tr>
+      <tr>
+        <td>User Support and Training</td>
+        <td>Tailored and ongoing</td>
+        <td>Minimal</td>
+        <td>Limited (mostly banking-focused)</td>
+      </tr>
+      <tr>
+        <td>Market Data Access</td>
+        <td>Real-time analytics</td>
+        <td>Limited</td>
+        <td>Limited</td>
+      </tr>
+      <tr>
+        <td>Product Range</td>
+        <td>Primary & secondary commodities</td>
+        <td>Primarily staple products</td>
+        <td>General financial products</td>
+      </tr>
+    </table>
+    
+    <div class="highlight-box">
+      <p>SCERS combines specialized knowledge of East African commodities with cutting-edge technology and a user-focused approach that existing solutions cannot match.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Strategic Action Plan -->
+<div class="slide">
+  <div class="slide-title">Strategic Action Plan</div>
+  <div class="slide-content">
+    <h3>Building a Strong Foundation:</h3>
+    
+    <div class="two-column">
+      <div class="column">
+        <p><strong>✅ Framework Agreement with the Government of Tanzania</strong></p>
+        <p>Engaging with cooperative banks, farmers, and logistics providers to create an integrated value chain that accommodates SCERS.</p>
+        
+        <p><strong>✅ MoU with a Captive Insurance Company</strong></p>
+        <p>Securitizing invested funds through a partnership with a captive insurance company, providing a structured risk mitigation approach.</p>
+      </div>
+      <div class="column">
+        <p><strong>✅ Leasing a Proven Trading Platform</strong></p>
+        <p>Negotiating a short-term platform lease with a reliable organization to launch quickly while developing proprietary infrastructure.</p>
+        
+        <p><strong>✅ Building a Sustainable Trade Ecosystem</strong></p>
+        <p>Creating a self-sustaining market by reinvesting revenue from traded goods to fertilizer sales while encouraging farmers to trade carbon credits.</p>
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      <p>Our comprehensive approach addresses the complete value chain, from production to market, ensuring sustainability and scalability.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: Roadmap -->
+<div class="slide">
+  <div class="slide-title">Product Roadmap</div>
+  <div class="slide-content">
+    <div class="roadmap">
+      <div class="roadmap-item">
+        <div class="roadmap-date">Year 1: Initial Development & Launch</div>
+        <p>Complete CBDTCS architecture, integrate blockchain for tokenization, launch digital credit platform for trade finance, and establish strategic partnerships.</p>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-date">Year 2: Feature Enhancement & Market Expansion</div>
+        <p>Introduce additional commodities (energy, critical minerals), enhance risk management features, add currency stabilization tools, and expand to Southern Africa.</p>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-date">Year 3: Global Scaling & Institutional Adoption</div>
+        <p>Expand to Asia and Europe, implement carbon trading and ESG tracking features, and automate contract execution with smart contracts.</p>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-date">Year 4: Full Product Maturity & Industry Leadership</div>
+        <p>Onboard global investors, banks, and commodity exchanges, enhance platform security and scalability, and add DeFi-based liquidity options.</p>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-date">Year 5: Market Leadership & Ecosystem Integration</div>
+        <p>Establish SCERS as the global leader in commodity-backed trading, integrate AI-driven decision making and algorithmic trading, and ensure global regulatory compliance.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: Team -->
+<div class="slide">
+  <div class="slide-title">Our Team</div>
+  <div class="slide-content">
+    <div class="team-member">
+      <div class="team-photo"></div>
+      <div class="team-info">
+        <div class="team-name">Deogratius W. Rutabanzibwa</div>
+        <div class="team-role">Founder & CEO</div>
+        <div class="team-bio">Former US Federal Reserve professional with deep market understanding, risk and compliance expertise in data and cloud. Background as a fund manager for export and trade finance, specializing in originating and managing transactions and relationships.</div>
+      </div>
+    </div>
+    
+    <div class="team-member">
+      <div class="team-photo"></div>
+      <div class="team-info">
+        <div class="team-name">Leo Tungaraza</div>
+        <div class="team-role">Project Manager</div>
+        <div class="team-bio">Project manager for advanced analytics at the Federal Reserve, with a strong track record in data-driven decision-making and operational efficiency.</div>
+      </div>
+    </div>
+    
+    <div class="team-member">
+      <div class="team-photo"></div>
+      <div class="team-info">
+        <div class="team-name">Unimug</div>
+        <div class="team-role">MaaS Partner</div>
+        <div class="team-bio">Marketing-as-a-Service partner providing strategic guidance to drive market entry and scalability.</div>
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      <p>Our team combines expertise in finance, commodities, risk management, and technology with a deep understanding of African markets.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Investment Opportunity -->
+<div class="slide">
+  <div class="slide-title">Investment Opportunity</div>
+  <div class="slide-content">
+    <div class="two-column">
+      <div class="column">
+        <h3>Funding Requirements:</h3>
+        <ul>
+          <li><strong>Seed Round:</strong> $1-5 million</li>
+          <li><strong>Series A:</strong> $10-20 million (future)</li>
+          <li><strong>Pre-Money Valuation:</strong> $10-20 million</li>
+          <li><strong>Use of Funds:</strong>
+            <ul>
+              <li>Platform Development (30%)</li>
+              <li>Operational Costs (25%)</li>
+              <li>Marketing and Outreach (20%)</li>
+              <li>Working Capital (15%)</li>
+              <li>Research and Expansion (10%)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>Investment Returns:</h3>
+        <ul>
+          <li><strong>Projected ROI:</strong> 16% (Year 1) to 23% (Year 5)</li>
+          <li><strong>Anticipated Exit:</strong> 5-7 years</li>
+          <li><strong>Exit Options:</strong>
+            <ul>
+              <li>Strategic Acquisition</li>
+              <li>IPO</li>
+              <li>Secondary Sale</li>
+            </ul>
+          </li>
+          <li><strong>Potential Buyers:</strong> Castleton Commodities International, Denham Capital, StoneX Group</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      <p>SCERS presents a <strong>high-growth, impact-driven investment opportunity</strong> with structured risk mitigation and a clear roadmap for expansion.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Call to Action -->
+<div class="slide">
+  <div class="slide-title">Join Us in Transforming African Commodity Markets</div>
+  <div class="slide-content">
+    <div class="highlight-box">
+      <p>SCERS/Kommodex is not just a platform; it's a movement to create sustainable, efficient, and inclusive commodity markets in Africa and beyond.</p>
+    </div>
+    
+    <h3>Next Steps:</h3>
+    <ul>
+      <li>Schedule a detailed technical demonstration</li>
+      <li>Review our comprehensive business plan and financial projections</li>
+      <li>Meet with our key team members and strategic partners</li>
+      <li>Discuss investment terms and opportunities</li>
+    </ul>
+    
+    <div class="quote">
+      "We seek partnerships with investors and accelerators who share our vision of transforming Africa's commodity markets through innovation, financial inclusion, and sustainability."
+    </div>
+    
+    <div class="footer">
+      <p><strong>Contact:</strong> Deogratius W. Rutabanzibwa | deo.ruta@bobv.com | Banzi-Otero International BV-©SCERS/Kommodex</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Define showSlide and currentSlide in a higher scope
+    let currentSlide = 0;
+    window.showSlide = function(index) {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(slide => {
+        slide.classList.remove('active');
+        slide.scrollTop = 0; // Reset scroll position
+      });
+      
+      slides[index].classList.add('active');
+      
+      // Update progress bar
+      const progress = ((index + 1) / slides.length) * 100;
+      document.querySelector('.progress-bar').style.width = `${progress}%`;
+      
+      // Update slide number
+      document.querySelector('.slide-number').textContent = `${index + 1} / ${slides.length}`;
+      
+      // Update button states
+      document.querySelector('.nav-btn:first-child').disabled = index === 0;
+      document.querySelector('.nav-btn:last-child').disabled = index === slides.length - 1;
+      
+      // Update current slide index
+      currentSlide = index;
+      
+      // Reset main scroll position
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    };
+    
+    // Rest of your existing slide setup code...
+    const slides = document.querySelectorAll('.slide');
+    const body = document.body;
+    
+    // Create slide container
+    const slideContainer = document.createElement('div');
+    slideContainer.className = 'slide-container';
+    
+    // Create progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar';
+    body.appendChild(progressBar);
+    
+    // Create slide number indicator
+    const slideNumber = document.createElement('div');
+    slideNumber.className = 'slide-number';
+    body.appendChild(slideNumber);
+    
+    // Create navigation
+    const navigation = document.createElement('div');
+    navigation.className = 'navigation';
+    
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'nav-btn';
+    prevBtn.textContent = 'Previous';
+    
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'nav-btn';
+    nextBtn.textContent = 'Next';
+    
+    navigation.appendChild(prevBtn);
+    navigation.appendChild(nextBtn);
+    body.appendChild(navigation);
+    
+    // Unwrap slides from body and add to container
+    slides.forEach(slide => {
+      slideContainer.appendChild(slide);
+    });
+    
+    body.appendChild(slideContainer);
+    
+    // Navigation event listeners
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < slides.length - 1) {
+        showSlide(currentSlide + 1);
+      }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    });
+    
+    // Show first slide initially
+    showSlide(0);
+    
+    // Add swipe gestures for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50 && currentSlide < slides.length - 1) {
+        // Swipe left
+        showSlide(currentSlide + 1);
+      }
+      
+      if (touchEndX > touchStartX + 50 && currentSlide > 0) {
+        // Swipe right
+        showSlide(currentSlide - 1);
+      }
+    }
+    
+    // Add a "Start Over" button to the last slide
+    const lastSlide = slides[slides.length - 1];
+    const restartButton = document.createElement('button');
+    restartButton.className = 'restart-btn';
+    restartButton.textContent = 'Start Presentation Again';
+    
+    // Add the button after the footer
+    const footer = lastSlide.querySelector('.footer');
+    if (footer) {
+      footer.after(restartButton);
+    } else {
+      lastSlide.querySelector('.slide-content').appendChild(restartButton);
+    }
+    
+    // Add event listener to restart the presentation
+    restartButton.addEventListener('click', function() {
+      showSlide(0); // Go back to the first slide
+    });
+  });
+  
+  // Disable right-click context menu
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  
+  // Disable print, save, and developer tools shortcuts
+  document.addEventListener('keydown', function(e) {
+    // Disable Ctrl+P (Print)
+    if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
+      e.preventDefault();
+      alert('Printing is disabled for this confidential presentation.');
+    }
+    
+    // Disable Ctrl+S (Save)
+    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+      e.preventDefault();
+      alert('Saving is disabled for this confidential presentation.');
+    }
+    
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J (Developer Tools)
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J'))) {
+      e.preventDefault();
+      alert('Developer tools are disabled for this confidential presentation.');
+    }
+  });
+  
+  // Disable browser's "Save As" function
+  window.addEventListener('beforeunload', function(e) {
+    // Cancel the event and show a message
+    e.returnValue = 'Changes you made may not be saved.';
+    // For modern browsers
+    return 'Changes you made may not be saved.';
+  });
+  
+  // Add invisible text to confuse OCR systems
+  document.addEventListener('DOMContentLoaded', function() {
+    const antiOcrDiv = document.createElement('div');
+    antiOcrDiv.style.position = 'fixed';
+    antiOcrDiv.style.top = '0';
+    antiOcrDiv.style.left = '0';
+    antiOcrDiv.style.width = '100%';
+    antiOcrDiv.style.height = '100%';
+    antiOcrDiv.style.pointerEvents = 'none';
+    antiOcrDiv.style.opacity = '0.0001';
+    antiOcrDiv.style.overflow = 'hidden';
+    antiOcrDiv.style.zIndex = '9999';
+    
+    // Add random characters to confuse OCR
+    for (let i = 0; i < 1000; i++) {
+      const span = document.createElement('span');
+      span.style.position = 'absolute';
+      span.style.left = Math.random() * 100 + '%';
+      span.style.top = Math.random() * 100 + '%';
+      span.style.fontSize = Math.random() * 10 + 'px';
+      span.textContent = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+      antiOcrDiv.appendChild(span);
+    }
+    
+    document.body.appendChild(antiOcrDiv);
+  });
+</script>
+
+<script>
+  // Add after your existing DOMContentLoaded script
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create watermark
+    const watermark = document.createElement('div');
+    watermark.className = 'watermark';
+    document.body.appendChild(watermark);
+    
+    // Add chart to financial projections slide
+    const financialSlide = document.querySelectorAll('.slide')[5]; // Adjust index if needed
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'chart-container economist-chart';
+    chartContainer.innerHTML = '<div class="chart-title">Revenue and Net Income Projection (5-Year)</div><canvas id="financialChart"></canvas><div class="chart-source">Source: SCERS Financial Models, 2023</div>';
+    
+    // Insert chart before the table
+    const table = financialSlide.querySelector('table');
+    table.parentNode.insertBefore(chartContainer, table);
+    
+    // Create financial chart
+    const ctx = document.getElementById('financialChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+        datasets: [
+          {
+            label: 'Revenue ($M)',
+            backgroundColor: '#e60000',
+            data: [6, 7, 8.5, 10.0, 11.8],
+            order: 2
+          },
+          {
+            label: 'Net Income ($M)',
+            backgroundColor: '#2f3e75',
+            data: [1.1, 1.4, 1.9, 2.3, 2.6],
+            order: 3
+          },
+          {
+            label: 'Net Margin (%)',
+            type: 'line',
+            borderColor: '#000',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointBackgroundColor: '#000',
+            data: [18.3, 20.0, 22.4, 23.0, 23.0],
+            yAxisID: 'y1',
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Million USD',
+              font: {
+                family: 'Georgia'
+              }
+            },
+            ticks: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          },
+          y1: {
+            position: 'right',
+            beginAtZero: true,
+            max: 30,
+            title: {
+              display: true,
+              text: 'Percentage',
+              font: {
+                family: 'Georgia'
+              }
+            },
+            ticks: {
+              font: {
+                family: 'Georgia'
+              }
+            },
+            grid: {
+              drawOnChartArea: false
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += '$' + context.raw + 'M';
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+    
+    // Add chart to Market Opportunity slide
+    const marketSlide = document.querySelectorAll('.slide')[3]; // Adjust index if needed
+    const pieChartContainer = document.createElement('div');
+    pieChartContainer.className = 'chart-container economist-chart';
+    pieChartContainer.innerHTML = '<div class="chart-title">Global Commodity Market Breakdown</div><canvas id="marketChart"></canvas><div class="chart-source">Source: Global Market Analysis, 2023</div>';
+    
+    // Find the right place to insert the chart
+    const highlightBox = marketSlide.querySelector('.highlight-box');
+    highlightBox.parentNode.insertBefore(pieChartContainer, highlightBox);
+    
+    // Create market pie chart
+    const ctxPie = document.getElementById('marketChart').getContext('2d');
+    new Chart(ctxPie, {
+      type: 'doughnut',
+      data: {
+        labels: ['Coffee', 'Cocoa', 'Superfoods', 'Other Agricultural Commodities'],
+        datasets: [{
+          data: [466, 129, 275, 620],
+          backgroundColor: [
+            '#e60000',
+            '#2f3e75',
+            '#ffa500',
+            '#555555'
+          ],
+          borderColor: '#fff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += '$' + context.raw + 'B';
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+    
+    // Add ROI chart to Business Model slide
+    const businessSlide = document.querySelectorAll('.slide')[4]; // Adjust index if needed
+    const lineChartContainer = document.createElement('div');
+    lineChartContainer.className = 'chart-container economist-chart';
+    lineChartContainer.innerHTML = '<div class="chart-title">Projected Return on Investment (5-Year)</div><canvas id="roiChart"></canvas><div class="chart-source">Source: SCERS Financial Projections, 2023</div>';
+    
+    // Insert chart after the table
+    const businessTable = businessSlide.querySelector('table');
+    businessTable.parentNode.appendChild(lineChartContainer);
+    
+    // Create ROI line chart
+    const ctxLine = document.getElementById('roiChart').getContext('2d');
+    new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+        datasets: [{
+          label: 'Return on Investment (%)',
+          data: [16.0, 18.0, 20.0, 21.0, 23.0],
+          borderColor: '#e60000',
+          backgroundColor: 'rgba(230, 0, 0, 0.1)',
+          borderWidth: 3,
+          pointBackgroundColor: '#e60000',
+          pointBorderColor: '#fff',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'ROI (%)',
+              font: {
+                family: 'Georgia'
+              }
+            },
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              },
+              font: {
+                family: 'Georgia'
+              }
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                family: 'Georgia'
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y + '%';
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+  // Additional security features
+  (function() {
+    // Function to detect screenshots (primarily works in Chrome)
+    document.addEventListener('keyup', function(e) {
+      // Screenshot key combinations
+      if (
+        // Windows: Win+Shift+S, PrtScn
+        (e.key === 'S' && e.shiftKey && (e.metaKey || e.ctrlKey)) ||
+        e.key === 'PrintScreen' ||
+        // Mac: Command+Shift+3 or Command+Shift+4
+        (e.key === '3' && e.shiftKey && e.metaKey) ||
+        (e.key === '4' && e.shiftKey && e.metaKey)
+      ) {
+        alert('Screenshots are not permitted for this confidential presentation.');
+      }
+    });
+    
+    // Periodically check if DevTools is open
+    let devToolsTimeout;
+    function checkDevTools() {
+      const devtools = /./;
+      devtools.toString = function() {
+        clearTimeout(devToolsTimeout);
+        alert('Developer tools are not permitted for this confidential presentation.');
+        return '';
+      };
+      console.log('%c', devtools);
+      devToolsTimeout = setTimeout(checkDevTools, 1000);
+    }
+    checkDevTools();
+    
+    // Prevent iframe embedding
+    if (window.top !== window.self) {
+      window.top.location.replace(window.self.location.href);
+    }
+    
+    // Set strict Content Security Policy
+    const meta = document.createElement('meta');
+    meta.httpEquiv = 'Content-Security-Policy';
+    meta.content = "default-src 'self' cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline';";
+    document.head.appendChild(meta);
+  })();
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Update chart configurations for better mobile display
+    // Function to check if the device is mobile
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+    
+    // Adjust financial chart for mobile
+    const financialChart = Chart.getChart('financialChart');
+    if (financialChart) {
+      if (isMobile()) {
+        // Simplify chart for mobile view
+        financialChart.options.plugins.legend.position = 'bottom';
+        financialChart.options.scales.y1.display = false; // Hide secondary axis on mobile
+        financialChart.data.datasets[2].yAxisID = 'y'; // Move line chart to primary axis
+        
+        // Update datasets for simplicity
+        financialChart.data.datasets[0].order = 1;
+        financialChart.data.datasets[1].order = 2;
+        financialChart.data.datasets[2].order = 3;
+        
+        financialChart.update();
+      }
+    }
+    
+    // Adjust pie chart for mobile
+    const marketChart = Chart.getChart('marketChart');
+    if (marketChart && isMobile()) {
+      marketChart.options.plugins.legend.position = 'bottom';
+      marketChart.update();
+    }
+    
+    // Adjust ROI chart for mobile
+    const roiChart = Chart.getChart('roiChart');
+    if (roiChart && isMobile()) {
+      roiChart.options.scales.y.ticks.maxTicksLimit = 5;
+      roiChart.update();
+    }
+    
+    // Handle orientation changes
+    window.addEventListener('resize', function() {
+      if (financialChart) {
+        if (isMobile()) {
+          financialChart.options.plugins.legend.position = 'bottom';
+          financialChart.options.scales.y1.display = false;
+        } else {
+          financialChart.options.plugins.legend.position = 'top';
+          financialChart.options.scales.y1.display = true;
+        }
+        financialChart.update();
+      }
+      
+      if (marketChart) {
+        marketChart.options.plugins.legend.position = isMobile() ? 'bottom' : 'right';
+        marketChart.update();
+      }
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check if device is touch-capable
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      // Add swipe indicator for mobile users
+      const swipeIndicator = document.createElement('div');
+      swipeIndicator.className = 'swipe-indicator';
+      swipeIndicator.textContent = 'Swipe left or right to navigate';
+      document.body.appendChild(swipeIndicator);
+      
+      // Hide indicator after 5 seconds
+      setTimeout(() => {
+        swipeIndicator.style.opacity = '0';
+        swipeIndicator.style.transition = 'opacity 1s';
+      }, 5000);
+    }
+  });
+</script>
+
+<script>
+  // Improve chart responsiveness
+  window.addEventListener('load', function() {
+    // Function to optimize charts for current viewport
+    function optimizeCharts() {
+      const isMobile = window.innerWidth <= 768;
+      const isPortrait = window.innerHeight > window.innerWidth;
+      
+      // Get all charts
+      const charts = [
+        Chart.getChart('financialChart'),
+        Chart.getChart('marketChart'),
+        Chart.getChart('roiChart')
+      ].filter(chart => chart); // Filter out null charts
+      
+      // Apply responsive options to all charts
+      charts.forEach(chart => {
+        // Adjust legend for all charts
+        if (chart.options && chart.options.plugins && chart.options.plugins.legend) {
+          chart.options.plugins.legend.position = isMobile ? 'bottom' : 'top';
+          
+          // Reduce font size on mobile
+          if (chart.options.plugins.legend.labels) {
+            chart.options.plugins.legend.labels.font = {
+              family: 'Georgia',
+              size: isMobile ? 10 : 12
+            };
+          }
+        }
+        
+        // For the financial chart specifically
+        if (chart.canvas.id === 'financialChart') {
+          // On mobile, simplify by hiding secondary axis
+          if (chart.options.scales && chart.options.scales.y1) {
+            chart.options.scales.y1.display = !isMobile;
+          }
+          
+          // Adjust the datasets if needed
+          if (isMobile && chart.data.datasets.length > 2) {
+            // Change the line chart to use primary axis
+            const lineDataset = chart.data.datasets.find(ds => ds.type === 'line');
+            if (lineDataset) {
+              lineDataset.yAxisID = 'y';
+            }
+          }
+        }
+        
+        // For pie/doughnut charts specifically
+        if (chart.canvas.id === 'marketChart') {
+          // Smaller legend on mobile
+          if (isMobile && isPortrait) {
+            chart.options.plugins.legend.position = 'bottom';
+          }
+        }
+        
+        // Update the chart with new options
+        chart.update();
+      });
+    }
+    
+    // Optimize charts on load
+    optimizeCharts();
+    
+    // Re-optimize on resize/orientation change
+    window.addEventListener('resize', optimizeCharts);
+  });
+</script>
+
+<script>
+  // Add data labels to tables for mobile responsive view
+  document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('table');
+    
+    tables.forEach(table => {
+      const headerCells = table.querySelectorAll('thead th');
+      const headerTexts = Array.from(headerCells).map(cell => cell.textContent);
+      
+      const bodyCells = table.querySelectorAll('tbody td');
+      bodyCells.forEach((cell, index) => {
+        const columnIndex = index % headerTexts.length;
+        cell.setAttribute('data-label', headerTexts[columnIndex]);
+      });
+    });
+  });
+</script>
+
+<script>
+  // Add this to the end of your document
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ensure all charts fit within their containers
+    const resizeCharts = function() {
+      const charts = [
+        Chart.getChart('financialChart'),
+        Chart.getChart('marketChart'),
+        Chart.getChart('roiChart')
+      ].filter(chart => chart);
+      
+      charts.forEach(chart => {
+        if (chart) {
+          // Maintain aspect ratio but fit within container
+          chart.options.maintainAspectRatio = false;
+          chart.options.responsive = true;
+          chart.resize();
+        }
+      });
+    };
+    
+    // Execute after charts are fully rendered
+    setTimeout(resizeCharts, 500);
+    
+    // Also resize on window resize
+    window.addEventListener('resize', resizeCharts);
+    
+    // Fix chart container heights
+    document.querySelectorAll('.chart-container').forEach(container => {
+      // Set minimum height to prevent squishing
+      if (window.innerWidth <= 480) {
+        container.style.minHeight = '250px';
+      } else {
+        container.style.minHeight = '300px';
+      }
+    });
+  });
+</script>
+
+<script>
+  // Add this to your existing chart optimization code
+  document.addEventListener('DOMContentLoaded', function() {
+    // Fix specifically for market chart in slide 4
+    const marketChart = Chart.getChart('marketChart');
+    if (marketChart) {
+      // Adjust options for better fit
+      marketChart.options.layout = {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 10,
+          bottom: 10
+        }
+      };
+      
+      // Adjust legend to fit inside container
+      if (window.innerWidth <= 768) {
+        marketChart.options.plugins.legend.position = 'bottom';
+      } else {
+        marketChart.options.plugins.legend.position = 'right';
+      }
+      
+      marketChart.update();
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Remove check mark emojis from slide 8
+    const slide8 = document.querySelectorAll('.slide')[7]; // 0-based index, so 7 is slide 8
+    if (slide8) {
+      const strongElements = slide8.querySelectorAll('strong');
+      strongElements.forEach(element => {
+        // Replace text content that contains the checkmark emoji
+        if (element.textContent.includes('✅')) {
+          element.textContent = element.textContent.replace('✅', '');
+        }
+      });
+    }
+  });
+</script>
+
+<script>
+  // Fix for market chart size and positioning
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the chart and its container on slide 4
+    const marketSlide = document.querySelectorAll('.slide')[3];
+    if (marketSlide) {
+      const chartContainer = marketSlide.querySelector('.chart-container');
+      if (chartContainer) {
+        // Ensure correct styling
+        chartContainer.style.height = '400px';
+        chartContainer.style.maxWidth = '100%';
+        chartContainer.style.margin = '30px auto';
+        chartContainer.style.padding = '0';
+        
+        // Access existing chart
+        const existingChart = Chart.getChart('marketChart');
+        if (existingChart) {
+          // Store data and destroy existing chart
+          const chartData = existingChart.data;
+          existingChart.destroy();
+          
+          // Create new chart with better configuration
+          const ctx = document.getElementById('marketChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'doughnut',
+            data: chartData,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: '50%',
+              radius: '90%',
+              layout: {
+                padding: 20
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                  align: 'center',
+                  labels: {
+                    boxWidth: 15,
+                    padding: 15,
+                    font: {
+                      family: 'Georgia',
+                      size: 12
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += '$' + context.raw + 'B';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  // Specific fix for the market chart in slide 4
+  document.addEventListener('DOMContentLoaded', function() {
+    // Allow some time for the chart to initialize
+    setTimeout(function() {
+      const marketChart = Chart.getChart('marketChart');
+      if (marketChart) {
+        // Customize the chart to ensure it's fully visible
+        marketChart.options = {
+          ...marketChart.options,
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              top: 20,
+              bottom: 20,
+              left: 20,
+              right: 20
+            }
+          },
+          plugins: {
+            ...marketChart.options.plugins,
+            legend: {
+              display: true,
+              position: 'top', // Move legend to top
+              align: 'center',
+              labels: {
+                boxWidth: 15,
+                padding: 15,
+                font: {
+                  family: 'Georgia',
+                  size: 12
+                }
+              }
+            },
+            datalabels: {
+              display: false // Disable datalabels to reduce clutter
+            }
+          }
+        };
+        
+        // Set a fixed height for better rendering
+        marketChart.canvas.parentNode.style.height = '400px';
+        marketChart.canvas.style.maxHeight = '400px';
+        
+        // Apply changes
+        marketChart.update();
+      }
+    }, 500);
+  });
+</script>
+
+<script>
+  // Update market chart positioning on window resize
+  window.addEventListener('resize', function() {
+    // Allow time for resize to complete
+    setTimeout(function() {
+      const marketChart = Chart.getChart('marketChart');
+      if (marketChart) {
+        // Adjust legend position based on screen size
+        if (window.innerWidth < 768) {
+          marketChart.options.plugins.legend.position = 'bottom';
+        } else {
+          marketChart.options.plugins.legend.position = 'top';
+        }
+        
+        // Update with new settings
+        marketChart.update();
+      }
+    }, 200);
+  });
+</script>
+
+</body>
+</html>
