@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
   <title>SCERS/Kommodex Pitch Deck</title>
   <style>
     body {
@@ -849,6 +849,167 @@
     .slide:nth-child(4) .highlight-box {
       margin-top: 30px;
     }
+    
+    /* Specific improvements for iPhone 7 and small screens */
+    @media screen and (max-width: 375px) {
+      body {
+        font-size: 14px;
+      }
+      
+      .slide {
+        width: 95%;
+        padding: 15px 10px;
+        top: 45%;
+      }
+      
+      .slide.active {
+        transform: translate(-50%, -40%);
+        max-height: 75vh;
+        overflow-y: auto;
+      }
+      
+      .slide-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+      }
+      
+      .slide-content {
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      
+      .navigation {
+        bottom: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 8px 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+      }
+      
+      .nav-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+        margin: 0 5px;
+        min-width: 90px;
+        min-height: 44px; /* iOS minimum touch target */
+      }
+      
+      .economist-header {
+        height: 45px;
+        padding: 0 10px;
+      }
+      
+      .economist-logo {
+        font-size: 14px;
+      }
+      
+      .presentation-title {
+        font-size: 12px;
+      }
+      
+      h3 {
+        font-size: 14px;
+        margin-top: 15px;
+        margin-bottom: 10px;
+      }
+      
+      ul {
+        padding-left: 15px;
+      }
+      
+      li {
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+      
+      table {
+        font-size: 10px;
+      }
+      
+      th, td {
+        padding: 6px 8px;
+      }
+      
+      .chart-container {
+        height: 200px !important;
+        margin: 15px auto !important;
+      }
+      
+      .metric-value {
+        font-size: 24px;
+      }
+      
+      .metric-label {
+        font-size: 12px;
+      }
+      
+      .highlight-box {
+        padding: 10px;
+        margin: 15px 0;
+        font-size: 13px;
+      }
+      
+      .quote {
+        font-size: 14px;
+        padding-left: 12px;
+        margin: 15px 0;
+      }
+      
+      .team-photo {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .team-name {
+        font-size: 16px;
+      }
+      
+      .team-bio {
+        font-size: 12px;
+      }
+      
+      /* Fix scrolling on small screens */
+      .slide-container {
+        height: 100vh;
+        padding-top: 50px;
+      }
+      
+      /* Fix slide position specifically for iPhone 7 */
+      .iphone-small .slide.active {
+        margin-top: 10px;
+        padding-bottom: 60px;
+      }
+      
+      /* Make chart containers smaller */
+      .iphone-small .chart-container {
+        height: 180px !important;
+      }
+      
+      /* Fix progress bar */
+      .progress-bar {
+        height: 3px;
+      }
+      
+      /* Fix slide number */
+      .slide-number {
+        bottom: 60px;
+        right: 10px;
+        font-size: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 3px 6px;
+      }
+      
+      /* Fix table overflow */
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+        font-size: 10px;
+      }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -1465,358 +1626,30 @@
   // Disable right-click context menu
   document.addEventListener('contextmenu', event => event.preventDefault());
   
-  // Disable print, save, and developer tools shortcuts
+  // Remove intrusive alerts for developer tools, print and save operations
   document.addEventListener('keydown', function(e) {
-    // Disable Ctrl+P (Print)
-    if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
+    // Disable Ctrl+P (Print), Ctrl+S (Save), F12, Ctrl+Shift+I, Ctrl+Shift+J
+    // But don't show alerts anymore
+    if (e.ctrlKey && (e.key === 'p' || e.key === 'P' || 
+                       e.key === 's' || e.key === 'S') ||
+        e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || 
+                                      e.key === 'j' || e.key === 'J'))) {
       e.preventDefault();
-      alert('Printing is disabled for this confidential presentation.');
-    }
-    
-    // Disable Ctrl+S (Save)
-    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
-      e.preventDefault();
-      alert('Saving is disabled for this confidential presentation.');
-    }
-    
-    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J (Developer Tools)
-    if (e.key === 'F12' || 
-        (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J'))) {
-      e.preventDefault();
-      alert('Developer tools are disabled for this confidential presentation.');
     }
   });
   
-  // Disable browser's "Save As" function
-  window.addEventListener('beforeunload', function(e) {
-    // Cancel the event and show a message
-    e.returnValue = 'Changes you made may not be saved.';
-    // For modern browsers
-    return 'Changes you made may not be saved.';
-  });
-  
-  // Add invisible text to confuse OCR systems
-  document.addEventListener('DOMContentLoaded', function() {
-    const antiOcrDiv = document.createElement('div');
-    antiOcrDiv.style.position = 'fixed';
-    antiOcrDiv.style.top = '0';
-    antiOcrDiv.style.left = '0';
-    antiOcrDiv.style.width = '100%';
-    antiOcrDiv.style.height = '100%';
-    antiOcrDiv.style.pointerEvents = 'none';
-    antiOcrDiv.style.opacity = '0.0001';
-    antiOcrDiv.style.overflow = 'hidden';
-    antiOcrDiv.style.zIndex = '9999';
-    
-    // Add random characters to confuse OCR
-    for (let i = 0; i < 1000; i++) {
-      const span = document.createElement('span');
-      span.style.position = 'absolute';
-      span.style.left = Math.random() * 100 + '%';
-      span.style.top = Math.random() * 100 + '%';
-      span.style.fontSize = Math.random() * 10 + 'px';
-      span.textContent = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-      antiOcrDiv.appendChild(span);
-    }
-    
-    document.body.appendChild(antiOcrDiv);
-  });
-</script>
-
-<script>
-  // Add after your existing DOMContentLoaded script
-  document.addEventListener('DOMContentLoaded', function() {
-    // Create watermark
-    const watermark = document.createElement('div');
-    watermark.className = 'watermark';
-    document.body.appendChild(watermark);
-    
-    // Add chart to financial projections slide
-    const financialSlide = document.querySelectorAll('.slide')[5]; // Adjust index if needed
-    const chartContainer = document.createElement('div');
-    chartContainer.className = 'chart-container economist-chart';
-    chartContainer.innerHTML = '<div class="chart-title">Revenue and Net Income Projection (5-Year)</div><canvas id="financialChart"></canvas><div class="chart-source">Source: SCERS Financial Models, 2023</div>';
-    
-    // Insert chart before the table
-    const table = financialSlide.querySelector('table');
-    table.parentNode.insertBefore(chartContainer, table);
-    
-    // Create financial chart
-    const ctx = document.getElementById('financialChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-        datasets: [
-          {
-            label: 'Revenue ($M)',
-            backgroundColor: '#e60000',
-            data: [6, 7, 8.5, 10.0, 11.8],
-            order: 2
-          },
-          {
-            label: 'Net Income ($M)',
-            backgroundColor: '#2f3e75',
-            data: [1.1, 1.4, 1.9, 2.3, 2.6],
-            order: 3
-          },
-          {
-            label: 'Net Margin (%)',
-            type: 'line',
-            borderColor: '#000',
-            backgroundColor: 'transparent',
-            borderWidth: 2,
-            pointBackgroundColor: '#000',
-            data: [18.3, 20.0, 22.4, 23.0, 23.0],
-            yAxisID: 'y1',
-            order: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Million USD',
-              font: {
-                family: 'Georgia'
-              }
-            },
-            ticks: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          },
-          y1: {
-            position: 'right',
-            beginAtZero: true,
-            max: 30,
-            title: {
-              display: true,
-              text: 'Percentage',
-              font: {
-                family: 'Georgia'
-              }
-            },
-            ticks: {
-              font: {
-                family: 'Georgia'
-              }
-            },
-            grid: {
-              drawOnChartArea: false
-            }
-          },
-          x: {
-            ticks: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                label += '$' + context.raw + 'M';
-                return label;
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    // Add chart to Market Opportunity slide
-    const marketSlide = document.querySelectorAll('.slide')[3]; // Adjust index if needed
-    const pieChartContainer = document.createElement('div');
-    pieChartContainer.className = 'chart-container economist-chart';
-    pieChartContainer.innerHTML = '<div class="chart-title">Global Commodity Market Breakdown</div><canvas id="marketChart"></canvas><div class="chart-source">Source: Global Market Analysis, 2023</div>';
-    
-    // Find the right place to insert the chart
-    const highlightBox = marketSlide.querySelector('.highlight-box');
-    highlightBox.parentNode.insertBefore(pieChartContainer, highlightBox);
-    
-    // Create market pie chart
-    const ctxPie = document.getElementById('marketChart').getContext('2d');
-    new Chart(ctxPie, {
-      type: 'doughnut',
-      data: {
-        labels: ['Coffee', 'Cocoa', 'Superfoods', 'Other Agricultural Commodities'],
-        datasets: [{
-          data: [466, 129, 275, 620],
-          backgroundColor: [
-            '#e60000',
-            '#2f3e75',
-            '#ffa500',
-            '#555555'
-          ],
-          borderColor: '#fff',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'right',
-            labels: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                label += '$' + context.raw + 'B';
-                return label;
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    // Add ROI chart to Business Model slide
-    const businessSlide = document.querySelectorAll('.slide')[4]; // Adjust index if needed
-    const lineChartContainer = document.createElement('div');
-    lineChartContainer.className = 'chart-container economist-chart';
-    lineChartContainer.innerHTML = '<div class="chart-title">Projected Return on Investment (5-Year)</div><canvas id="roiChart"></canvas><div class="chart-source">Source: SCERS Financial Projections, 2023</div>';
-    
-    // Insert chart after the table
-    const businessTable = businessSlide.querySelector('table');
-    businessTable.parentNode.appendChild(lineChartContainer);
-    
-    // Create ROI line chart
-    const ctxLine = document.getElementById('roiChart').getContext('2d');
-    new Chart(ctxLine, {
-      type: 'line',
-      data: {
-        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-        datasets: [{
-          label: 'Return on Investment (%)',
-          data: [16.0, 18.0, 20.0, 21.0, 23.0],
-          borderColor: '#e60000',
-          backgroundColor: 'rgba(230, 0, 0, 0.1)',
-          borderWidth: 3,
-          pointBackgroundColor: '#e60000',
-          pointBorderColor: '#fff',
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'ROI (%)',
-              font: {
-                family: 'Georgia'
-              }
-            },
-            ticks: {
-              callback: function(value) {
-                return value + '%';
-              },
-              font: {
-                family: 'Georgia'
-              }
-            }
-          },
-          x: {
-            ticks: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                family: 'Georgia'
-              }
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                label += context.parsed.y + '%';
-                return label;
-              }
-            }
-          }
-        }
-      }
-    });
-  });
+  // Remove the beforeunload event handler that was showing an alert
+  window.removeEventListener('beforeunload', function(){});
+  window.onbeforeunload = null;
 </script>
 
 <script>
   // Additional security features
   (function() {
-    // Function to detect screenshots (primarily works in Chrome)
-    document.addEventListener('keyup', function(e) {
-      // Screenshot key combinations
-      if (
-        // Windows: Win+Shift+S, PrtScn
-        (e.key === 'S' && e.shiftKey && (e.metaKey || e.ctrlKey)) ||
-        e.key === 'PrintScreen' ||
-        // Mac: Command+Shift+3 or Command+Shift+4
-        (e.key === '3' && e.shiftKey && e.metaKey) ||
-        (e.key === '4' && e.shiftKey && e.metaKey)
-      ) {
-        alert('Screenshots are not permitted for this confidential presentation.');
-      }
-    });
+    // Remove screenshot detection
     
-    // Periodically check if DevTools is open
-    let devToolsTimeout;
-    function checkDevTools() {
-      const devtools = /./;
-      devtools.toString = function() {
-        clearTimeout(devToolsTimeout);
-        alert('Developer tools are not permitted for this confidential presentation.');
-        return '';
-      };
-      console.log('%c', devtools);
-      devToolsTimeout = setTimeout(checkDevTools, 1000);
-    }
-    checkDevTools();
+    // Remove the DevTools checking that was causing pop-ups
     
     // Prevent iframe embedding
     if (window.top !== window.self) {
@@ -2218,6 +2051,75 @@
         marketChart.update();
       }
     }, 200);
+  });
+</script>
+
+<script>
+  // Enhance mobile experience especially for iPhone 7
+  document.addEventListener('DOMContentLoaded', function() {
+    // Detect if user is on iPhone
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isSmallScreen = window.innerWidth <= 375;
+    
+    if (isIOS && isSmallScreen) {
+      // Add specific class for iPhone 7
+      document.body.classList.add('iphone-small');
+      
+      // Adjust slide heights for better fit
+      document.querySelectorAll('.slide').forEach(slide => {
+        slide.style.paddingBottom = '60px';
+      });
+      
+      // Fix navigation position
+      const navigation = document.querySelector('.navigation');
+      if (navigation) {
+        navigation.style.position = 'fixed';
+        navigation.style.bottom = '10px';
+        navigation.style.width = '100%';
+        navigation.style.background = 'rgba(255, 255, 255, 0.9)';
+        navigation.style.paddingTop = '8px';
+        navigation.style.paddingBottom = '8px';
+        navigation.style.zIndex = '1000';
+      }
+      
+      // Better touch targets
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.style.minHeight = '44px';
+      });
+      
+      // Enhance scrolling
+      document.querySelectorAll('.slide').forEach(slide => {
+        slide.addEventListener('scroll', function(e) {
+          e.stopPropagation();
+        });
+      });
+    }
+    
+    // Fix charts for all mobile devices
+    if (window.innerWidth < 768) {
+      const charts = [
+        Chart.getChart('financialChart'),
+        Chart.getChart('marketChart'),
+        Chart.getChart('roiChart')
+      ].filter(chart => chart);
+      
+      charts.forEach(chart => {
+        if (chart) {
+          // Simplify charts on mobile
+          if (chart.options && chart.options.plugins && chart.options.plugins.legend) {
+            chart.options.plugins.legend.position = 'bottom';
+            chart.options.plugins.legend.labels = {
+              boxWidth: 12,
+              padding: 10,
+              font: { family: 'Georgia', size: 10 }
+            };
+          }
+          
+          // Update the chart
+          chart.update();
+        }
+      });
+    }
   });
 </script>
 
