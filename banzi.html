@@ -1452,6 +1452,27 @@
         max-height: calc(100vh - 120px);
       }
     }
+    
+    /* Specific fix for iPhone 7 transitions */
+    @media screen and (max-width: 375px) {
+      .slide.active {
+        transform: none !important;
+        transition: opacity 0.7s ease !important;
+      }
+      
+      /* Fix for iPhone 7 landscape mode */
+      @media (orientation: landscape) {
+        .slide.active {
+          transform: none !important;
+          left: 0 !important;
+          top: 0 !important;
+          position: relative !important;
+          margin: 0 auto !important;
+          width: 90% !important;
+          max-width: 800px !important;
+        }
+      }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -1927,6 +1948,9 @@
     let currentSlide = 0;
     window.showSlide = function(index) {
       const slides = document.querySelectorAll('.slide');
+      const isIPhone = /iPhone/i.test(navigator.userAgent);
+      const isSmallScreen = window.innerWidth <= 375;
+      const isLandscape = window.innerWidth > window.innerHeight;
       
       // First reset all slides
       slides.forEach(slide => {
@@ -1974,16 +1998,34 @@
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       
-      // Check if we're in landscape mode and apply specific styles
-      const isLandscape = window.innerWidth > window.innerHeight;
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const isSmallScreen = window.innerWidth <= 375;
-      
       // Set slide-specific styles based on orientation and device
       const activeSlide = slides[index];
       
-      if (isLandscape && window.innerWidth <= 915) {
-        // Landscape mode on small devices
+      if (isIPhone && isSmallScreen) {
+        // Special handling for iPhone 7 and similar devices
+        if (isLandscape) {
+          // Landscape mode on iPhone 7 - no diagonal transitions
+          activeSlide.style.position = 'relative';
+          activeSlide.style.opacity = '1';
+          activeSlide.style.visibility = 'visible';
+          activeSlide.style.transform = 'none';
+          activeSlide.style.top = '0';
+          activeSlide.style.left = '0';
+          activeSlide.style.margin = '0 auto';
+          activeSlide.style.width = '90%';
+          activeSlide.style.zIndex = '2';
+        } else {
+          // Portrait mode on iPhone 7
+          activeSlide.style.position = 'absolute';
+          activeSlide.style.opacity = '1';
+          activeSlide.style.visibility = 'visible';
+          activeSlide.style.top = '50%';
+          activeSlide.style.left = '50%';
+          activeSlide.style.transform = 'translate(-50%, -45%)';
+          activeSlide.style.zIndex = '2';
+        }
+      } else if (isLandscape && window.innerWidth <= 915) {
+        // Landscape mode on other small devices
         activeSlide.style.position = 'relative';
         activeSlide.style.opacity = '1';
         activeSlide.style.visibility = 'visible';
@@ -1995,20 +2037,16 @@
         activeSlide.style.width = '90%';
         activeSlide.style.maxWidth = '800px';
         activeSlide.style.zIndex = '2';
-      } else if (isIOS && isSmallScreen) {
-        // Small iOS device (like iPhone 7)
-        activeSlide.style.position = 'absolute';
-        activeSlide.style.opacity = '1';
-        activeSlide.style.visibility = 'visible';
-        activeSlide.style.top = '50%';
-        activeSlide.style.left = '50%';
-        activeSlide.style.transform = 'translate(-50%, -45%)';
-        activeSlide.style.zIndex = '2';
       } else {
         // Regular styling for active slide
         activeSlide.style.opacity = '1';
         activeSlide.style.visibility = 'visible';
         activeSlide.style.zIndex = '2';
+      }
+      
+      // Fix Business Model slide duplication
+      if (index === 4) {
+        setTimeout(fixBusinessModelDuplication, 100);
       }
     };
     
@@ -3101,14 +3139,21 @@
         // Business Model table (slide 5)
         const businessModelSlide = document.querySelectorAll('.slide')[4];
         if (businessModelSlide) {
+          // First remove any existing bento containers to avoid duplication
+          const existingBentoContainers = businessModelSlide.querySelectorAll('.bento-container');
+          existingBentoContainers.forEach(container => {
+            container.remove();
+          });
+
           const table = businessModelSlide.querySelector('table');
-          if (table && !businessModelSlide.querySelector('.bento-container')) {
+          if (table) {
             // Get all table rows except header
             const rows = table.querySelectorAll('tbody tr');
             
             // Create bento container
             const bentoContainer = document.createElement('div');
             bentoContainer.className = 'bento-container';
+            bentoContainer.id = 'business-model-bento'; // Add ID for easier targeting
             
             // Convert each row to a bento card
             rows.forEach(row => {
@@ -3125,7 +3170,7 @@
                 description.className = 'bento-value';
                 description.textContent = cells[1].textContent;
                 
-                // Display percentage without 'Revenue:' prefix
+                // Just use the percentage value directly without any prefix
                 const percentage = document.createElement('div');
                 percentage.className = 'bento-label';
                 percentage.textContent = cells[2].textContent;
@@ -3145,8 +3190,14 @@
         // Financial Projections table (slide 6)
         const financialSlide = document.querySelectorAll('.slide')[5];
         if (financialSlide) {
+          // Remove any existing bento containers
+          const existingBentoContainers = financialSlide.querySelectorAll('.bento-container');
+          existingBentoContainers.forEach(container => {
+            container.remove();
+          });
+
           const table = financialSlide.querySelector('table');
-          if (table && !financialSlide.querySelector('.bento-container')) {
+          if (table) {
             // Get table headers and rows
             const headers = table.querySelectorAll('th');
             const rows = table.querySelectorAll('tbody tr');
@@ -3198,6 +3249,12 @@
             // Convert metrics container to grid
             const metricsContainer = financialSlide.querySelector('.metrics-container');
             if (metricsContainer) {
+              // Remove existing metrics grid
+              const existingMetricsGrid = financialSlide.querySelector('.metrics-grid');
+              if (existingMetricsGrid) {
+                existingMetricsGrid.remove();
+              }
+
               const metrics = metricsContainer.querySelectorAll('.metric');
               if (metrics.length > 0) {
                 const metricsGrid = document.createElement('div');
@@ -3236,8 +3293,14 @@
         // Competitive Advantage table (slide 7)
         const competitiveSlide = document.querySelectorAll('.slide')[6];
         if (competitiveSlide) {
+          // Remove any existing bento containers
+          const existingBentoContainers = competitiveSlide.querySelectorAll('.bento-container');
+          existingBentoContainers.forEach(container => {
+            container.remove();
+          });
+
           const table = competitiveSlide.querySelector('table');
-          if (table && !competitiveSlide.querySelector('.bento-container')) {
+          if (table) {
             // Get table headers and rows
             const headers = table.querySelectorAll('th');
             const rows = table.querySelectorAll('tbody tr');
@@ -3447,6 +3510,41 @@
       }
     }, { passive: false });
   });
+</script>
+
+<script>
+  // Fix for Business Model slide duplication
+  function fixBusinessModelDuplication() {
+    // This executes after other scripts have run
+    setTimeout(() => {
+      // Fix Business Model slide (slide 5, index 4)
+      const businessModelSlide = document.querySelectorAll('.slide')[4];
+      if (businessModelSlide) {
+        // Remove duplicate text by checking for any bento labels with "Revenue:" prefix
+        const bentoLabels = businessModelSlide.querySelectorAll('.bento-label');
+        bentoLabels.forEach(label => {
+          // Remove "Revenue: " if it exists at the beginning of the text
+          if (label.textContent.startsWith('Revenue: ')) {
+            label.textContent = label.textContent.replace('Revenue: ', '');
+          }
+        });
+        
+        // Also check for duplicate bento containers and remove them
+        const bentoContainers = businessModelSlide.querySelectorAll('.bento-container');
+        if (bentoContainers.length > 1) {
+          // Keep only the first one
+          for (let i = 1; i < bentoContainers.length; i++) {
+            bentoContainers[i].remove();
+          }
+        }
+      }
+    }, 500);
+  }
+  
+  // Call the fix on load and orientation change
+  fixBusinessModelDuplication();
+  window.addEventListener('orientationchange', fixBusinessModelDuplication);
+  window.addEventListener('resize', debounce(fixBusinessModelDuplication, 500));
 </script>
 
 </body>
