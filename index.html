@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
-  <!-- Force Vercel deployment update -->
   <title>SCERS/Kommodex Pitch Deck</title>
   <style>
     body {
@@ -20,26 +19,13 @@
     }
     
     .slide {
-      position: absolute;
-      width: 90%;
+      box-sizing: border-box;
       max-width: 900px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.7s ease;
-      margin: 0;
+      width: 90%;
       overflow-y: auto;
+      overflow-x: hidden;
       max-height: 80vh;
       padding: 30px;
-      box-sizing: border-box;
-    }
-    
-    .slide.active {
-      opacity: 1;
-      visibility: visible;
-      z-index: 2;
     }
     
     .slide-title {
@@ -247,6 +233,31 @@
       padding-top: 70px;
       overflow: hidden;
       box-sizing: border-box;
+    }
+    
+    .slide {
+      position: absolute;
+      width: 90%;
+      max-width: 900px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      margin: 0;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      padding-top: 25px;
+    }
+    
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, calc(-50% + 40px));
+      z-index: 2;
+      max-height: 80vh;
+      overflow-y: auto;
     }
     
     .navigation {
@@ -529,7 +540,7 @@
         margin: 0 auto 15px;
       }
       
-      chart-container {
+      .chart-container {
         height: 250px !important;
         margin: 20px 0;
       }
@@ -935,16 +946,14 @@
       }
       
       .slide.active {
-        transform: translate(-50%, -50%) !important;
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        margin: 0 !important;
-        width: 90% !important;
-        max-width: 900px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        z-index: 2 !important;
+        transform: translate(-50%, -40%);
+        max-height: 75vh;
+        overflow-y: auto;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        padding-bottom: 60px;
+        margin-top: 0;
       }
       
       .slide-title {
@@ -1319,11 +1328,17 @@
         font-size: 12px;
       }
       
-      /* Change all bento card colors to red */
-      .bento-card:nth-child(3n+1),
-      .bento-card:nth-child(3n+2),
-      .bento-card:nth-child(3n+3) {
+      /* Different card colors */
+      .bento-card:nth-child(3n+1) {
         border-top: 3px solid #e60000;
+      }
+      
+      .bento-card:nth-child(3n+2) {
+        border-top: 3px solid #2f3e75;
+      }
+      
+      .bento-card:nth-child(3n+3) {
+        border-top: 3px solid #ffa500;
       }
       
       /* Specifically modify the original tables */
@@ -1389,80 +1404,6 @@
         .bento-container {
           display: none;
         }
-      }
-    }
-    
-    /* Fix Bento card colors to use only red */
-    @media screen and (max-width: 600px) and (orientation: portrait) {
-      /* Change all bento card colors to red */
-      .bento-card:nth-child(3n+1),
-      .bento-card:nth-child(3n+2),
-      .bento-card:nth-child(3n+3) {
-        border-top: 3px solid #e60000;
-      }
-      
-      /* Fix double scrolling in landscape mode */
-      .slide.active {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
-      }
-
-      /* Ensure body doesn't scroll when slide is active */
-      body.active-slide-scrolling {
-        overflow: hidden;
-        height: 100%;
-      }
-
-      /* Fix for the metric card to use only red */
-      .metric-card {
-        border-top: 3px solid #e60000;
-      }
-    }
-
-    /* Add landscape-specific fix for scrolling */
-    @media screen and (orientation: landscape) {
-      body {
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .slide-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-      }
-      
-      .slide.active {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        max-height: calc(100vh - 120px);
-      }
-    }
-    
-    /* Fix for chart containers */
-    .chart-container {
-      height: 300px !important;
-      margin: 20px 0;
-    }
-    
-    /* Fix for landscape mode */
-    @media screen and (orientation: landscape) {
-      .slide.active {
-        transform: translate(-50%, -45%);
-        max-height: calc(100vh - 120px) !important;
-      }
-      
-      body {
-        overflow: hidden;
-      }
-      
-      .slide-container {
-        overflow: hidden;
       }
     }
   </style>
@@ -1944,7 +1885,17 @@
       // First reset all slides
       slides.forEach(slide => {
         slide.classList.remove('active');
+        slide.style.position = '';
+        slide.style.opacity = '0';
+        slide.style.visibility = 'hidden';
         slide.scrollTop = 0; // Reset scroll position
+        
+        // Reset any inline styles that might cause stacking
+        slide.style.transform = '';
+        slide.style.top = '';
+        slide.style.left = '';
+        slide.style.margin = '';
+        slide.style.zIndex = '';
       });
       
       // Now activate the current slide
@@ -1977,311 +1928,47 @@
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       
-      // Fix Business Model slide duplication
-      if (index === 4) {
-        setTimeout(fixBusinessModelDuplication, 100);
+      // Check if we're in landscape mode and apply specific styles
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isSmallScreen = window.innerWidth <= 375;
+      
+      // Set slide-specific styles based on orientation and device
+      const activeSlide = slides[index];
+      
+      if (isLandscape && window.innerWidth <= 915) {
+        // Landscape mode on small devices
+        activeSlide.style.position = 'relative';
+        activeSlide.style.opacity = '1';
+        activeSlide.style.visibility = 'visible';
+        activeSlide.style.left = '0';
+        activeSlide.style.transform = 'none';
+        activeSlide.style.margin = '0 auto 60px';
+        activeSlide.style.top = '0';
+        activeSlide.style.display = 'block';
+        activeSlide.style.width = '90%';
+        activeSlide.style.maxWidth = '800px';
+        activeSlide.style.zIndex = '2';
+      } else if (isIOS && isSmallScreen) {
+        // Small iOS device (like iPhone 7)
+        activeSlide.style.position = 'absolute';
+        activeSlide.style.opacity = '1';
+        activeSlide.style.visibility = 'visible';
+        activeSlide.style.top = '50%';
+        activeSlide.style.left = '50%';
+        activeSlide.style.transform = 'translate(-50%, -45%)';
+        activeSlide.style.zIndex = '2';
+      } else {
+        // Regular styling for active slide
+        activeSlide.style.opacity = '1';
+        activeSlide.style.visibility = 'visible';
+        activeSlide.style.zIndex = '2';
       }
-
-      // Initialize charts based on the current slide
-      initializeChartsForSlide(index);
     };
     
     // Get slide elements
     const slides = document.querySelectorAll('.slide');
     const body = document.body;
-    
-    // Create chart containers in appropriate slides if they don't exist
-    function setupChartContainers() {
-      // Market Opportunity Slide (index 3)
-      const marketSlide = slides[3];
-      if (marketSlide && !marketSlide.querySelector('#marketChart')) {
-        const chartContainer = document.createElement('div');
-        chartContainer.className = 'chart-container economist-chart';
-        chartContainer.innerHTML = `
-          <div class="chart-title">Global Commodity Market Segments</div>
-          <canvas id="marketChart"></canvas>
-          <div class="chart-source">Source: International Trade Centre, World Bank</div>
-        `;
-        marketSlide.querySelector('.slide-content').appendChild(chartContainer);
-      }
-      
-      // Financial Projections Slide (index 5)
-      const financialSlide = slides[5];
-      if (financialSlide && !financialSlide.querySelector('#financialChart')) {
-        const chartContainer = document.createElement('div');
-        chartContainer.className = 'chart-container economist-chart';
-        chartContainer.innerHTML = `
-          <div class="chart-title">Financial Growth Projections</div>
-          <canvas id="financialChart"></canvas>
-          <div class="chart-source">Source: SCERS/Kommodex Financial Models</div>
-        `;
-        financialSlide.querySelector('.slide-content').appendChild(chartContainer);
-      }
-      
-      // Investment Opportunity Slide (index 10)
-      const investmentSlide = slides[10];
-      if (investmentSlide && !investmentSlide.querySelector('#roiChart')) {
-        const chartContainer = document.createElement('div');
-        chartContainer.className = 'chart-container economist-chart';
-        chartContainer.innerHTML = `
-          <div class="chart-title">Projected ROI Growth</div>
-          <canvas id="roiChart"></canvas>
-          <div class="chart-source">Source: SCERS/Kommodex Investor Projections</div>
-        `;
-        // Add after the first column div
-        const columnDivs = investmentSlide.querySelectorAll('.column');
-        if (columnDivs.length > 0) {
-          columnDivs[0].appendChild(chartContainer);
-        }
-      }
-    }
-    
-    // Initialize charts based on the current slide
-    function initializeChartsForSlide(slideIndex) {
-      // First ensure chart containers exist
-      setupChartContainers();
-      
-      // Market Opportunity Slide (index 3)
-      if (slideIndex === 3) {
-        if (document.getElementById('marketChart')) {
-          // Check if chart already exists and destroy it
-          const existingChart = Chart.getChart('marketChart');
-          if (existingChart) {
-            existingChart.destroy();
-          }
-          
-          // Create Market Opportunity chart (Doughnut chart)
-          const ctx = document.getElementById('marketChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-              labels: ['Coffee ($466B)', 'Cocoa ($129B)', 'Superfoods ($275B)', 'Other Agricultural Commodities ($8.83T)'],
-              datasets: [{
-                data: [466, 129, 275, 8830],
-                backgroundColor: [
-                  '#e60000',
-                  '#ff6666',
-                  '#ff9999',
-                  '#ffcccc'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              cutout: '50%',
-              plugins: {
-                legend: {
-                  position: 'right',
-                  labels: {
-                    font: {
-                      family: 'Georgia'
-                    }
-                  }
-                },
-                tooltip: {
-                  callbacks: {
-                    label: function(context) {
-                      let label = context.label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      if (context.parsed !== null) {
-                        label += new Intl.NumberFormat('en-US', { 
-                          style: 'currency', 
-                          currency: 'USD',
-                          maximumFractionDigits: 0,
-                          notation: 'compact',
-                          compactDisplay: 'short'
-                        }).format(context.parsed);
-                      }
-                      return label;
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-      
-      // Financial Projections Slide (index 5)
-      else if (slideIndex === 5) {
-        if (document.getElementById('financialChart')) {
-          // Check if chart already exists and destroy it
-          const existingChart = Chart.getChart('financialChart');
-          if (existingChart) {
-            existingChart.destroy();
-          }
-          
-          // Create Financial Projections chart (Bar and Line chart)
-          const ctx = document.getElementById('financialChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-              datasets: [
-                {
-                  label: 'Revenue ($M)',
-                  data: [6, 7, 8.5, 10, 11.8],
-                  backgroundColor: '#e60000',
-                  order: 1,
-                  yAxisID: 'y'
-                },
-                {
-                  label: 'Net Income ($M)',
-                  data: [1.1, 1.4, 1.9, 2.3, 2.6],
-                  backgroundColor: '#ff9999',
-                  order: 2,
-                  yAxisID: 'y'
-                },
-                {
-                  label: 'Net Margin (%)',
-                  data: [18.3, 20.0, 22.4, 23.0, 23.0],
-                  type: 'line',
-                  borderColor: '#000',
-                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                  borderWidth: 2,
-                  fill: false,
-                  tension: 0.4,
-                  order: 0,
-                  yAxisID: 'y1'
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  title: {
-                    display: true,
-                    text: 'Revenue & Net Income ($M)',
-                    font: {
-                      family: 'Georgia'
-                    }
-                  }
-                },
-                y1: {
-                  beginAtZero: true,
-                  position: 'right',
-                  grid: {
-                    drawOnChartArea: false
-                  },
-                  title: {
-                    display: true,
-                    text: 'Net Margin (%)',
-                    font: {
-                      family: 'Georgia'
-                    }
-                  },
-                  min: 0,
-                  max: 30
-                }
-              },
-              plugins: {
-                legend: {
-                  position: 'top',
-                  labels: {
-                    font: {
-                      family: 'Georgia'
-                    }
-                  }
-                },
-                tooltip: {
-                  callbacks: {
-                    label: function(context) {
-                      let label = context.dataset.label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      if (context.parsed.y !== null) {
-                        if (context.dataset.label.includes('%')) {
-                          label += context.parsed.y.toFixed(1) + '%';
-                        } else {
-                          label += '$' + context.parsed.y.toFixed(1) + 'M';
-                        }
-                      }
-                      return label;
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-      
-      // Investment Opportunity Slide (index 10)
-      else if (slideIndex === 10) {
-        if (document.getElementById('roiChart')) {
-          // Check if chart already exists and destroy it
-          const existingChart = Chart.getChart('roiChart');
-          if (existingChart) {
-            existingChart.destroy();
-          }
-          
-          // Create ROI chart (Line chart)
-          const ctx = document.getElementById('roiChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-              datasets: [{
-                label: 'Projected ROI (%)',
-                data: [16, 18, 20, 21, 23],
-                borderColor: '#e60000',
-                backgroundColor: 'rgba(230, 0, 0, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  title: {
-                    display: true,
-                    text: 'ROI (%)',
-                    font: {
-                      family: 'Georgia'
-                    }
-                  },
-                  min: 0,
-                  max: 30,
-                  ticks: {
-                    callback: function(value) {
-                      return value + '%';
-                    }
-                  }
-                }
-              },
-              plugins: {
-                legend: {
-                  display: false
-                },
-                tooltip: {
-                  callbacks: {
-                    label: function(context) {
-                      let label = 'ROI: ';
-                      if (context.parsed.y !== null) {
-                        label += context.parsed.y + '%';
-                      }
-                      return label;
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-    }
     
     // Create slide container if it doesn't exist
     let slideContainer = document.querySelector('.slide-container');
@@ -2961,78 +2648,716 @@
 <script>
   // Handle orientation changes
   document.addEventListener('DOMContentLoaded', function() {
-    // Just reapply the current slide
-    if (typeof currentSlide !== 'undefined') {
-      showSlide(currentSlide);
-    }
+    // Initial check for orientation
+    handleOrientationChange();
     
-    // Fix Business Model slide duplication
-    fixBusinessModelDuplication();
-  });
-  
-  // Fix Business Model duplication 
-  function fixBusinessModelDuplication() {
-    setTimeout(() => {
-      const businessModelSlide = document.querySelectorAll('.slide')[4];
-      if (businessModelSlide) {
-        // Remove duplicate bento containers
-        const bentoContainers = businessModelSlide.querySelectorAll('.bento-container');
-        if (bentoContainers.length > 1) {
-          for (let i = 1; i < bentoContainers.length; i++) {
-            bentoContainers[i].remove();
-          }
+    // Listen for orientation changes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+    
+    function handleOrientationChange() {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const slides = document.querySelectorAll('.slide');
+      const slideContainer = document.querySelector('.slide-container');
+      
+      if (isLandscape && window.innerWidth <= 915) {
+        // Add landscape class to body
+        document.body.classList.add('landscape-mode');
+        
+        // Fix slide container for landscape
+        if (slideContainer) {
+          slideContainer.style.height = 'auto';
+          slideContainer.style.minHeight = '100vh';
+          slideContainer.style.overflow = 'visible';
+          slideContainer.style.paddingTop = '40px';
         }
         
-        // Fix any remaining labels with "Revenue:" prefix
-        const bentoLabels = businessModelSlide.querySelectorAll('.bento-label');
-        bentoLabels.forEach(label => {
-          if (label.textContent.startsWith('Revenue: ')) {
-            label.textContent = label.textContent.replace('Revenue: ', '');
-          }
+        // Adjust all slides for landscape viewing
+        slides.forEach(slide => {
+          slide.style.position = 'absolute';
+          slide.style.opacity = '0';
+          slide.style.visibility = 'hidden';
+          slide.style.maxHeight = 'calc(100vh - 110px)';
+          slide.style.margin = '0 auto';
+          slide.style.left = '50%';
+          slide.style.transform = 'translateX(-50%)';
         });
+        
+        // Fix active slide for landscape
+        const activeSlide = document.querySelector('.slide.active');
+        if (activeSlide) {
+          activeSlide.style.position = 'relative';
+          activeSlide.style.opacity = '1';
+          activeSlide.style.visibility = 'visible';
+          activeSlide.style.left = '0';
+          activeSlide.style.transform = 'none';
+          activeSlide.style.margin = '0 auto 60px';
+          activeSlide.style.top = '0';
+          activeSlide.style.display = 'block';
+          activeSlide.style.width = '90%';
+          activeSlide.style.maxWidth = '800px';
+        }
+        
+        // Fix navigation for landscape
+        const navigation = document.querySelector('.navigation');
+        if (navigation) {
+          navigation.style.position = 'fixed';
+          navigation.style.bottom = '10px';
+          navigation.style.width = '100%';
+          navigation.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+          navigation.style.padding = '5px 0';
+          navigation.style.zIndex = '100';
+        }
+      } else {
+        // Remove landscape class
+        document.body.classList.remove('landscape-mode');
+        
+        // If small iOS device, keep those optimizations
+        if (!/iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth > 375) {
+          // Reset styles only if not a small iOS device
+          if (slideContainer) {
+            slideContainer.style.height = '';
+            slideContainer.style.minHeight = '';
+            slideContainer.style.overflow = '';
+            slideContainer.style.paddingTop = '';
+          }
+          
+          // Reset all slides
+          slides.forEach(slide => {
+            if (!slide.classList.contains('active')) {
+              slide.style.position = '';
+              slide.style.opacity = '';
+              slide.style.visibility = '';
+              slide.style.maxHeight = '';
+              slide.style.margin = '';
+              slide.style.left = '';
+              slide.style.transform = '';
+            }
+          });
+        }
       }
-    }, 100);
-  }
+      
+      // Force a redraw of the current slide
+      const currentSlideIndex = parseInt(document.querySelector('.slide-number')?.textContent.split('/')[0]?.trim() || '1') - 1;
+      if (!isNaN(currentSlideIndex) && typeof window.showSlide === 'function') {
+        window.showSlide(currentSlideIndex);
+      }
+    }
+  });
 </script>
 
 <script>
-  // Add touch event listeners to handle scroll locking
+  // Add after your existing DOMContentLoaded script
   document.addEventListener('DOMContentLoaded', function() {
-    // Flag to track if a slide is being scrolled
-    let isSlideScrolling = false;
+    // Create watermark
+    const watermark = document.createElement('div');
+    watermark.className = 'watermark';
+    document.body.appendChild(watermark);
     
-    // Find all slides
-    const slides = document.querySelectorAll('.slide');
-    
-    // Add touch event listeners to each slide
-    slides.forEach(slide => {
-      slide.addEventListener('touchstart', function() {
-        if (slide.classList.contains('active')) {
-          isSlideScrolling = true;
-          document.body.classList.add('active-slide-scrolling');
-        }
-      }, { passive: true });
+    // Add chart to financial projections slide
+    const financialSlide = document.querySelectorAll('.slide')[5]; // Adjust index if needed
+    if (financialSlide) {
+      const chartContainer = document.createElement('div');
+      chartContainer.className = 'chart-container economist-chart';
+      chartContainer.innerHTML = '<div class="chart-title">Revenue and Net Income Projection (5-Year)</div><canvas id="financialChart"></canvas><div class="chart-source">Source: SCERS Financial Models, 2023</div>';
       
-      slide.addEventListener('touchend', function() {
-        isSlideScrolling = false;
-        // Add a small delay before removing the class to prevent jumps
-        setTimeout(() => {
-          document.body.classList.remove('active-slide-scrolling');
-        }, 100);
-      }, { passive: true });
-    });
+      // Insert chart before the table
+      const table = financialSlide.querySelector('table');
+      if (table) {
+        table.parentNode.insertBefore(chartContainer, table);
+      }
+      
+      // Create financial chart
+      try {
+        const ctx = document.getElementById('financialChart')?.getContext('2d');
+        if (ctx && typeof Chart !== 'undefined') {
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [
+                {
+                  label: 'Revenue ($M)',
+                  backgroundColor: '#e60000',
+                  data: [6, 7, 8.5, 10.0, 11.8],
+                  order: 2
+                },
+                {
+                  label: 'Net Income ($M)',
+                  backgroundColor: '#2f3e75',
+                  data: [1.1, 1.4, 1.9, 2.3, 2.6],
+                  order: 3
+                },
+                {
+                  label: 'Net Margin (%)',
+                  type: 'line',
+                  borderColor: '#000',
+                  backgroundColor: 'transparent',
+                  borderWidth: 2,
+                  pointBackgroundColor: '#000',
+                  data: [18.3, 20.0, 22.4, 23.0, 23.0],
+                  yAxisID: 'y1',
+                  order: 1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Million USD',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                y1: {
+                  position: 'right',
+                  beginAtZero: true,
+                  max: 30,
+                  title: {
+                    display: true,
+                    text: 'Percentage',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  grid: {
+                    drawOnChartArea: false
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += '$' + context.raw + 'M';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('Financial chart creation skipped', e);
+      }
+    }
     
-    // Prevent body scrolling when touching outside slides in landscape
-    document.addEventListener('touchmove', function(e) {
-      const isLandscape = window.innerWidth > window.innerHeight;
-      if (isLandscape && !isSlideScrolling) {
-        // Check if touch is not inside an active slide
-        const activeSlide = document.querySelector('.slide.active');
-        if (!activeSlide || !activeSlide.contains(e.target)) {
-          e.preventDefault();
+    // Add chart to Market Opportunity slide
+    const marketSlide = document.querySelectorAll('.slide')[3]; // Adjust index if needed
+    if (marketSlide) {
+      const pieChartContainer = document.createElement('div');
+      pieChartContainer.className = 'chart-container economist-chart';
+      pieChartContainer.innerHTML = '<div class="chart-title">Global Commodity Market Breakdown</div><canvas id="marketChart"></canvas><div class="chart-source">Source: Global Market Analysis, 2023</div>';
+      
+      // Find the right place to insert the chart
+      const highlightBox = marketSlide.querySelector('.highlight-box');
+      if (highlightBox) {
+        highlightBox.parentNode.insertBefore(pieChartContainer, highlightBox);
+      }
+      
+      // Create market pie chart
+      try {
+        const ctxPie = document.getElementById('marketChart')?.getContext('2d');
+        if (ctxPie && typeof Chart !== 'undefined') {
+          new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+              labels: ['Coffee', 'Cocoa', 'Superfoods', 'Other Agricultural Commodities'],
+              datasets: [{
+                data: [466, 129, 275, 620],
+                backgroundColor: [
+                  '#e60000',
+                  '#2f3e75',
+                  '#ffa500',
+                  '#555555'
+                ],
+                borderColor: '#fff',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += '$' + context.raw + 'B';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('Market chart creation skipped', e);
+      }
+    }
+    
+    // Add ROI chart to Business Model slide
+    const businessSlide = document.querySelectorAll('.slide')[4]; // Adjust index if needed
+    if (businessSlide) {
+      const lineChartContainer = document.createElement('div');
+      lineChartContainer.className = 'chart-container economist-chart';
+      lineChartContainer.innerHTML = '<div class="chart-title">Projected Return on Investment (5-Year)</div><canvas id="roiChart"></canvas><div class="chart-source">Source: SCERS Financial Projections, 2023</div>';
+      
+      // Insert chart after the table
+      const businessTable = businessSlide.querySelector('table');
+      if (businessTable) {
+        businessTable.parentNode.appendChild(lineChartContainer);
+      }
+      
+      // Create ROI line chart
+      try {
+        const ctxLine = document.getElementById('roiChart')?.getContext('2d');
+        if (ctxLine && typeof Chart !== 'undefined') {
+          new Chart(ctxLine, {
+            type: 'line',
+            data: {
+              labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+              datasets: [{
+                label: 'Return on Investment (%)',
+                data: [16.0, 18.0, 20.0, 21.0, 23.0],
+                borderColor: '#e60000',
+                backgroundColor: 'rgba(230, 0, 0, 0.1)',
+                borderWidth: 3,
+                pointBackgroundColor: '#e60000',
+                pointBorderColor: '#fff',
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                fill: true,
+                tension: 0.3
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'ROI (%)',
+                    font: {
+                      family: 'Georgia'
+                    }
+                  },
+                  ticks: {
+                    callback: function(value) {
+                      return value + '%';
+                    },
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    font: {
+                      family: 'Georgia'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      label += context.parsed.y + '%';
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.log('ROI chart creation skipped', e);
+      }
+    }
+  });
+</script>
+
+<script>
+  // Add scripts to transform the tables into bento box layout in portrait mode
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add bento box layout for Business Model table
+    createBentoLayout();
+    
+    // Recreate bento layout when orientation changes
+    window.addEventListener('orientationchange', createBentoLayout);
+    window.addEventListener('resize', createBentoLayout);
+    
+    function createBentoLayout() {
+      // Only create bento layout in portrait mode on small screens
+      if (window.innerWidth <= 600 && window.innerHeight > window.innerWidth) {
+        // Business Model table (slide 5)
+        const businessModelSlide = document.querySelectorAll('.slide')[4];
+        if (businessModelSlide) {
+          const table = businessModelSlide.querySelector('table');
+          if (table && !businessModelSlide.querySelector('.bento-container')) {
+            // Get all table rows except header
+            const rows = table.querySelectorAll('tbody tr');
+            
+            // Create bento container
+            const bentoContainer = document.createElement('div');
+            bentoContainer.className = 'bento-container';
+            
+            // Convert each row to a bento card
+            rows.forEach(row => {
+              const cells = row.querySelectorAll('td');
+              if (cells.length >= 3) {
+                const card = document.createElement('div');
+                card.className = 'bento-card';
+                
+                const header = document.createElement('div');
+                header.className = 'bento-header';
+                header.textContent = cells[0].textContent;
+                
+                const description = document.createElement('div');
+                description.className = 'bento-value';
+                description.textContent = cells[1].textContent;
+                
+                const percentage = document.createElement('div');
+                percentage.className = 'bento-label';
+                percentage.textContent = 'Revenue: ' + cells[2].textContent;
+                
+                card.appendChild(header);
+                card.appendChild(description);
+                card.appendChild(percentage);
+                bentoContainer.appendChild(card);
+              }
+            });
+            
+            // Insert bento container after the table
+            table.parentNode.insertBefore(bentoContainer, table.nextSibling);
+          }
+        }
+        
+        // Financial Projections table (slide 6)
+        const financialSlide = document.querySelectorAll('.slide')[5];
+        if (financialSlide) {
+          const table = financialSlide.querySelector('table');
+          if (table && !financialSlide.querySelector('.bento-container')) {
+            // Get table headers and rows
+            const headers = table.querySelectorAll('th');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            // Create bento container
+            const bentoContainer = document.createElement('div');
+            bentoContainer.className = 'bento-container';
+            
+            // Convert each metric to a bento card
+            rows.forEach(row => {
+              const cells = row.querySelectorAll('td');
+              if (cells.length >= 6) {
+                const card = document.createElement('div');
+                card.className = 'bento-card';
+                
+                const header = document.createElement('div');
+                header.className = 'bento-header';
+                header.textContent = cells[0].textContent; // Metric name
+                
+                const valueContainer = document.createElement('div');
+                valueContainer.className = 'bento-value';
+                
+                // Add each year as a span
+                for (let i = 1; i < 6; i++) {
+                  const yearSpan = document.createElement('span');
+                  yearSpan.className = 'year-indicator';
+                  yearSpan.textContent = `Y${i}`;
+                  valueContainer.appendChild(yearSpan);
+                  
+                  const yearValue = document.createElement('span');
+                  yearValue.textContent = cells[i].textContent + ' ';
+                  valueContainer.appendChild(yearValue);
+                  
+                  // Add line break except after the last one
+                  if (i < 5) {
+                    valueContainer.appendChild(document.createElement('br'));
+                  }
+                }
+                
+                card.appendChild(header);
+                card.appendChild(valueContainer);
+                bentoContainer.appendChild(card);
+              }
+            });
+            
+            // Insert bento container after the table
+            table.parentNode.insertBefore(bentoContainer, table.nextSibling);
+            
+            // Convert metrics container to grid
+            const metricsContainer = financialSlide.querySelector('.metrics-container');
+            if (metricsContainer) {
+              const metrics = metricsContainer.querySelectorAll('.metric');
+              if (metrics.length > 0) {
+                const metricsGrid = document.createElement('div');
+                metricsGrid.className = 'metrics-grid';
+                
+                metrics.forEach(metric => {
+                  const metricCard = document.createElement('div');
+                  metricCard.className = 'metric-card';
+                  
+                  const metricValue = metric.querySelector('.metric-value');
+                  const metricLabel = metric.querySelector('.metric-label');
+                  
+                  if (metricValue && metricLabel) {
+                    const valueDiv = document.createElement('div');
+                    valueDiv.className = 'metric-value';
+                    valueDiv.textContent = metricValue.textContent;
+                    
+                    const labelDiv = document.createElement('div');
+                    labelDiv.className = 'metric-label';
+                    labelDiv.textContent = metricLabel.textContent;
+                    
+                    metricCard.appendChild(valueDiv);
+                    metricCard.appendChild(labelDiv);
+                    metricsGrid.appendChild(metricCard);
+                  }
+                });
+                
+                // Replace original metrics container with grid
+                metricsContainer.parentNode.insertBefore(metricsGrid, metricsContainer);
+                metricsContainer.style.display = 'none';
+              }
+            }
+          }
+        }
+        
+        // Competitive Advantage table (slide 7)
+        const competitiveSlide = document.querySelectorAll('.slide')[6];
+        if (competitiveSlide) {
+          const table = competitiveSlide.querySelector('table');
+          if (table && !competitiveSlide.querySelector('.bento-container')) {
+            // Get table headers and rows
+            const headers = table.querySelectorAll('th');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            // Create bento container
+            const bentoContainer = document.createElement('div');
+            bentoContainer.className = 'bento-container';
+            
+            // Convert each feature to a bento card
+            rows.forEach(row => {
+              const cells = row.querySelectorAll('td');
+              if (cells.length >= 4) {
+                const card = document.createElement('div');
+                card.className = 'bento-card';
+                
+                const header = document.createElement('div');
+                header.className = 'bento-header';
+                header.textContent = cells[0].textContent; // Feature name
+                
+                // SCERS/Kommodex
+                const scersDiv = document.createElement('div');
+                scersDiv.className = 'bento-subtitle';
+                scersDiv.textContent = 'SCERS/Kommodex:';
+                
+                const scersValue = document.createElement('div');
+                scersValue.className = 'bento-value';
+                scersValue.textContent = cells[1].textContent;
+                
+                // Direct Competitors
+                const directDiv = document.createElement('div');
+                directDiv.className = 'bento-subtitle';
+                directDiv.textContent = 'Direct Competitors:';
+                
+                const directValue = document.createElement('div');
+                directValue.className = 'bento-value';
+                directValue.textContent = cells[2].textContent;
+                
+                // Indirect Competitors
+                const indirectDiv = document.createElement('div');
+                indirectDiv.className = 'bento-subtitle';
+                indirectDiv.textContent = 'Indirect Competitors:';
+                
+                const indirectValue = document.createElement('div');
+                indirectValue.className = 'bento-value';
+                indirectValue.textContent = cells[3].textContent;
+                
+                card.appendChild(header);
+                card.appendChild(scersDiv);
+                card.appendChild(scersValue);
+                card.appendChild(directDiv);
+                card.appendChild(directValue);
+                card.appendChild(indirectDiv);
+                card.appendChild(indirectValue);
+                
+                bentoContainer.appendChild(card);
+              }
+            });
+            
+            // Insert bento container after the table
+            table.parentNode.insertBefore(bentoContainer, table.nextSibling);
+          }
         }
       }
-    }, { passive: false });
+    }
+  });
+</script>
+
+<script>
+  // Add this enhanced orientation detection and handling script
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle orientation changes
+    function handleOrientationChange() {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const currentSlideIndex = currentSlide; // Get the current slide index
+      
+      // Clear any previous orientation classes
+      document.body.classList.remove('portrait-mode');
+      document.body.classList.remove('landscape-mode');
+      
+      // Add appropriate orientation class
+      if (isLandscape) {
+        document.body.classList.add('landscape-mode');
+        
+        // Hide any bento containers that might be visible
+        document.querySelectorAll('.bento-container').forEach(container => {
+          container.style.display = 'none';
+        });
+        
+        // Show all tables
+        document.querySelectorAll('table').forEach(table => {
+          table.style.display = 'table';
+        });
+        
+        // Show original metrics container
+        document.querySelectorAll('.metrics-container').forEach(container => {
+          container.style.display = 'flex';
+        });
+        
+        // Hide metrics grid
+        document.querySelectorAll('.metrics-grid').forEach(grid => {
+          grid.style.display = 'none';
+        });
+      } else {
+        document.body.classList.add('portrait-mode');
+        
+        // For small screens in portrait mode, handle table/bento visibility
+        if (window.innerWidth <= 600) {
+          // Create or update bento layouts if needed
+          if (typeof createBentoLayout === 'function') {
+            createBentoLayout();
+          }
+          
+          // Show bento containers
+          document.querySelectorAll('.bento-container').forEach(container => {
+            container.style.display = 'grid';
+          });
+          
+          // Hide original tables for slides 5, 6, and 7
+          const slidesToModify = [4, 5, 6]; // 0-based index
+          slidesToModify.forEach(index => {
+            const slide = document.querySelectorAll('.slide')[index];
+            if (slide) {
+              const tables = slide.querySelectorAll('table');
+              tables.forEach(table => {
+                table.style.display = 'none';
+              });
+            }
+          });
+          
+          // Hide original metrics container
+          document.querySelectorAll('.metrics-container').forEach(container => {
+            container.style.display = 'none';
+          });
+          
+          // Show metrics grid
+          document.querySelectorAll('.metrics-grid').forEach(grid => {
+            grid.style.display = 'grid';
+          });
+        }
+      }
+      
+      // Reapply slide visibility with a slight delay to ensure DOM has updated
+      setTimeout(() => {
+        // Force redraw of the current slide
+        if (typeof showSlide === 'function') {
+          showSlide(currentSlideIndex);
+        }
+      }, 100);
+    }
+    
+    // Initial call to handle orientation
+    handleOrientationChange();
+    
+    // Add event listeners for orientation changes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', debounce(handleOrientationChange, 250));
+    
+    // Debounce function to limit rapid calls on resize
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
   });
 </script>
 
