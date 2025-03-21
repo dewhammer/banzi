@@ -856,16 +856,29 @@
         font-size: 14px;
       }
       
+      .slide-container {
+        height: 100vh;
+        padding-top: 50px;
+        overflow: hidden;
+      }
+      
       .slide {
         width: 95%;
         padding: 15px 10px;
         top: 45%;
+        box-sizing: border-box;
+        position: absolute;
       }
       
       .slide.active {
         transform: translate(-50%, -40%);
         max-height: 75vh;
         overflow-y: auto;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        padding-bottom: 60px;
+        margin-top: 0;
       }
       
       .slide-title {
@@ -1008,6 +1021,187 @@
         white-space: nowrap;
         width: 100%;
         font-size: 10px;
+      }
+    }
+    
+    /* This CSS at the end of your style tag to override any previous styles */
+    @media screen and (max-width: 375px) {
+      body.iphone-small .slide {
+        position: absolute !important;
+        width: 95% !important;
+        height: auto !important;
+        max-height: 70vh !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        box-sizing: border-box !important;
+      }
+      
+      body.iphone-small .slide.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 10 !important;
+        transform: translate(-50%, -45%) !important;
+        overflow-y: auto !important;
+      }
+      
+      body.iphone-small .slide-container {
+        position: relative !important;
+        height: 100vh !important;
+        width: 100% !important;
+        overflow: hidden !important;
+      }
+    }
+    
+    /* Add landscape mode fixes for mobile devices */
+    @media screen and (max-width: 915px) and (orientation: landscape) {
+      body {
+        font-size: 14px;
+      }
+      
+      .economist-header {
+        height: 40px;
+        padding: 0 10px;
+      }
+      
+      .economist-logo {
+        font-size: 14px;
+      }
+      
+      .presentation-title {
+        font-size: 12px;
+      }
+      
+      .slide-container {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 40px;
+        overflow: visible;
+      }
+      
+      .slide {
+        position: absolute;
+        width: 90%;
+        max-width: 800px;
+        max-height: calc(100vh - 110px);
+        padding: 15px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+      
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin: 0 auto 60px;
+        display: block;
+      }
+      
+      .navigation {
+        position: fixed;
+        bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 5px 0;
+        width: 100%;
+        z-index: 100;
+      }
+      
+      .slide-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+      }
+      
+      .slide-content {
+        font-size: 13px;
+        padding-bottom: 10px;
+      }
+      
+      .nav-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+        margin: 0 5px;
+        min-width: 90px;
+        min-height: 36px;
+      }
+      
+      /* Make more room for content in landscape */
+      .slide-container {
+        padding-top: 40px;
+      }
+      
+      /* Fix two-column layout for landscape */
+      .two-column {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .column {
+        flex: 0 0 48%;
+      }
+      
+      h3 {
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      
+      .highlight-box {
+        padding: 8px;
+        margin: 10px 0;
+        font-size: 13px;
+      }
+      
+      /* Fix table overflow */
+      table {
+        font-size: 10px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      th, td {
+        padding: 4px 6px;
+      }
+      
+      /* Chart size in landscape */
+      .chart-container {
+        height: 180px !important;
+        margin: 10px auto !important;
+      }
+      
+      /* Hide progress bar in landscape */
+      .progress-bar {
+        height: 2px;
+      }
+      
+      /* Fix slide number */
+      .slide-number {
+        bottom: 55px;
+        right: 10px;
+        font-size: 10px;
+      }
+      
+      /* Adjust metrics display */
+      .metrics-container {
+        flex-direction: row;
+      }
+      
+      .metric {
+        padding: 12px;
+        margin: 5px;
+      }
+      
+      .metric-value {
+        font-size: 20px;
+      }
+      
+      .metric-label {
+        font-size: 12px;
       }
     }
   </style>
@@ -1494,14 +1688,22 @@
       
       // Update progress bar
       const progress = ((index + 1) / slides.length) * 100;
-      document.querySelector('.progress-bar').style.width = `${progress}%`;
+      const progressBar = document.querySelector('.progress-bar');
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
       
       // Update slide number
-      document.querySelector('.slide-number').textContent = `${index + 1} / ${slides.length}`;
+      const slideNumber = document.querySelector('.slide-number');
+      if (slideNumber) {
+        slideNumber.textContent = `${index + 1} / ${slides.length}`;
+      }
       
       // Update button states
-      document.querySelector('.nav-btn:first-child').disabled = index === 0;
-      document.querySelector('.nav-btn:last-child').disabled = index === slides.length - 1;
+      const prevBtn = document.querySelector('.nav-btn:first-child');
+      const nextBtn = document.querySelector('.nav-btn:last-child');
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index === slides.length - 1;
       
       // Update current slide index
       currentSlide = index;
@@ -1510,61 +1712,103 @@
       window.scrollTo(0, 0);
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
+      
+      // Check if we're in landscape mode and apply specific styles
+      const isLandscape = window.innerWidth > window.innerHeight;
+      if (isLandscape && window.innerWidth <= 915) {
+        // Apply landscape-specific styles to the active slide
+        const activeSlide = slides[index];
+        if (activeSlide) {
+          activeSlide.style.position = 'relative';
+          activeSlide.style.opacity = '1';
+          activeSlide.style.visibility = 'visible';
+          activeSlide.style.left = '0';
+          activeSlide.style.transform = 'none';
+          activeSlide.style.margin = '0 auto 60px';
+          activeSlide.style.top = '0';
+          activeSlide.style.display = 'block';
+          activeSlide.style.width = '90%';
+          activeSlide.style.maxWidth = '800px';
+        }
+      } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && window.innerWidth <= 375) {
+        // Special handling for iPhone 7 and similar devices
+        const activeSlide = slides[index];
+        if (activeSlide) {
+          // These styles will be controlled by the CSS already in place
+          // Just make sure we don't override them
+        }
+      }
     };
     
-    // Rest of your existing slide setup code...
+    // Get slide elements
     const slides = document.querySelectorAll('.slide');
     const body = document.body;
     
-    // Create slide container
-    const slideContainer = document.createElement('div');
-    slideContainer.className = 'slide-container';
+    // Create slide container if it doesn't exist
+    let slideContainer = document.querySelector('.slide-container');
+    if (!slideContainer) {
+      slideContainer = document.createElement('div');
+      slideContainer.className = 'slide-container';
+      
+      // Move slides into container
+      slides.forEach(slide => {
+        // Only move if not already in container
+        if (slide.parentNode !== slideContainer) {
+          slideContainer.appendChild(slide);
+        }
+      });
+      
+      // Add container to body
+      body.appendChild(slideContainer);
+    }
     
-    // Create progress bar
-    const progressBar = document.createElement('div');
-    progressBar.className = 'progress-bar';
-    body.appendChild(progressBar);
+    // Create progress bar if it doesn't exist
+    let progressBar = document.querySelector('.progress-bar');
+    if (!progressBar) {
+      progressBar = document.createElement('div');
+      progressBar.className = 'progress-bar';
+      body.appendChild(progressBar);
+    }
     
-    // Create slide number indicator
-    const slideNumber = document.createElement('div');
-    slideNumber.className = 'slide-number';
-    body.appendChild(slideNumber);
+    // Create slide number indicator if it doesn't exist
+    let slideNumber = document.querySelector('.slide-number');
+    if (!slideNumber) {
+      slideNumber = document.createElement('div');
+      slideNumber.className = 'slide-number';
+      body.appendChild(slideNumber);
+    }
     
-    // Create navigation
-    const navigation = document.createElement('div');
-    navigation.className = 'navigation';
-    
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'nav-btn';
-    prevBtn.textContent = 'Previous';
-    
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'nav-btn';
-    nextBtn.textContent = 'Next';
-    
-    navigation.appendChild(prevBtn);
-    navigation.appendChild(nextBtn);
-    body.appendChild(navigation);
-    
-    // Unwrap slides from body and add to container
-    slides.forEach(slide => {
-      slideContainer.appendChild(slide);
-    });
-    
-    body.appendChild(slideContainer);
-    
-    // Navigation event listeners
-    prevBtn.addEventListener('click', () => {
-      if (currentSlide > 0) {
-        showSlide(currentSlide - 1);
-      }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-      if (currentSlide < slides.length - 1) {
-        showSlide(currentSlide + 1);
-      }
-    });
+    // Create navigation if it doesn't exist
+    let navigation = document.querySelector('.navigation');
+    if (!navigation) {
+      navigation = document.createElement('div');
+      navigation.className = 'navigation';
+      
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'nav-btn';
+      prevBtn.textContent = 'Previous';
+      
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'nav-btn';
+      nextBtn.textContent = 'Next';
+      
+      navigation.appendChild(prevBtn);
+      navigation.appendChild(nextBtn);
+      body.appendChild(navigation);
+      
+      // Navigation event listeners
+      prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+          showSlide(currentSlide - 1);
+        }
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+          showSlide(currentSlide + 1);
+        }
+      });
+    }
     
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
@@ -1603,24 +1847,29 @@
       }
     }
     
-    // Add a "Start Over" button to the last slide
+    // Add a "Start Over" button to the last slide if it doesn't already exist
     const lastSlide = slides[slides.length - 1];
-    const restartButton = document.createElement('button');
-    restartButton.className = 'restart-btn';
-    restartButton.textContent = 'Start Presentation Again';
-    
-    // Add the button after the footer
-    const footer = lastSlide.querySelector('.footer');
-    if (footer) {
-      footer.after(restartButton);
-    } else {
-      lastSlide.querySelector('.slide-content').appendChild(restartButton);
+    if (lastSlide && !lastSlide.querySelector('.restart-btn')) {
+      const restartButton = document.createElement('button');
+      restartButton.className = 'restart-btn';
+      restartButton.textContent = 'Start Presentation Again';
+      
+      // Add the button after the footer or to the slide content
+      const footer = lastSlide.querySelector('.footer');
+      if (footer) {
+        footer.after(restartButton);
+      } else {
+        const slideContent = lastSlide.querySelector('.slide-content');
+        if (slideContent) {
+          slideContent.appendChild(restartButton);
+        }
+      }
+      
+      // Add event listener to restart the presentation
+      restartButton.addEventListener('click', function() {
+        showSlide(0); // Go back to the first slide
+      });
     }
-    
-    // Add event listener to restart the presentation
-    restartButton.addEventListener('click', function() {
-      showSlide(0); // Go back to the first slide
-    });
   });
   
   // Disable right-click context menu
@@ -1986,48 +2235,57 @@
   document.addEventListener('DOMContentLoaded', function() {
     // Allow some time for the chart to initialize
     setTimeout(function() {
-      const marketChart = Chart.getChart('marketChart');
-      if (marketChart) {
-        // Customize the chart to ensure it's fully visible
-        marketChart.options = {
-          ...marketChart.options,
-          responsive: true,
-          maintainAspectRatio: false,
-          layout: {
-            padding: {
-              top: 20,
-              bottom: 20,
-              left: 20,
-              right: 20
-            }
-          },
-          plugins: {
-            ...marketChart.options.plugins,
-            legend: {
-              display: true,
-              position: 'top', // Move legend to top
-              align: 'center',
-              labels: {
-                boxWidth: 15,
-                padding: 15,
-                font: {
-                  family: 'Georgia',
-                  size: 12
+      if (typeof Chart !== 'undefined') {
+        try {
+          const marketChart = Chart.getChart('marketChart');
+          if (marketChart) {
+            // Customize the chart to ensure it's fully visible
+            marketChart.options = {
+              ...marketChart.options,
+              responsive: true,
+              maintainAspectRatio: false,
+              layout: {
+                padding: {
+                  top: 20,
+                  bottom: 20,
+                  left: 20,
+                  right: 20
+                }
+              },
+              plugins: {
+                ...marketChart.options.plugins,
+                legend: {
+                  display: true,
+                  position: 'top', // Move legend to top
+                  align: 'center',
+                  labels: {
+                    boxWidth: 15,
+                    padding: 15,
+                    font: {
+                      family: 'Georgia',
+                      size: 12
+                    }
+                  }
+                },
+                datalabels: {
+                  display: false // Disable datalabels to reduce clutter
                 }
               }
-            },
-            datalabels: {
-              display: false // Disable datalabels to reduce clutter
+            };
+            
+            // Set a fixed height for better rendering
+            if (marketChart.canvas && marketChart.canvas.parentNode) {
+              marketChart.canvas.parentNode.style.height = '400px';
+              marketChart.canvas.style.maxHeight = '400px';
             }
+            
+            // Apply changes
+            marketChart.update();
           }
-        };
-        
-        // Set a fixed height for better rendering
-        marketChart.canvas.parentNode.style.height = '400px';
-        marketChart.canvas.style.maxHeight = '400px';
-        
-        // Apply changes
-        marketChart.update();
+        } catch (e) {
+          // Silently handle any errors
+          console.log('Market chart adjustment skipped');
+        }
       }
     }, 500);
   });
@@ -2038,17 +2296,24 @@
   window.addEventListener('resize', function() {
     // Allow time for resize to complete
     setTimeout(function() {
-      const marketChart = Chart.getChart('marketChart');
-      if (marketChart) {
-        // Adjust legend position based on screen size
-        if (window.innerWidth < 768) {
-          marketChart.options.plugins.legend.position = 'bottom';
-        } else {
-          marketChart.options.plugins.legend.position = 'top';
+      if (typeof Chart !== 'undefined') {
+        try {
+          const marketChart = Chart.getChart('marketChart');
+          if (marketChart) {
+            // Adjust legend position based on screen size
+            if (window.innerWidth < 768) {
+              marketChart.options.plugins.legend.position = 'bottom';
+            } else {
+              marketChart.options.plugins.legend.position = 'top';
+            }
+            
+            // Update with new settings
+            marketChart.update();
+          }
+        } catch (e) {
+          // Silently handle any errors
+          console.log('Chart resize skipped');
         }
-        
-        // Update with new settings
-        marketChart.update();
       }
     }, 200);
   });
@@ -2065,10 +2330,30 @@
       // Add specific class for iPhone 7
       document.body.classList.add('iphone-small');
       
-      // Adjust slide heights for better fit
+      // Fix slide positioning for iPhone
       document.querySelectorAll('.slide').forEach(slide => {
         slide.style.paddingBottom = '60px';
+        slide.style.position = 'absolute';
+        slide.style.top = '50%';
+        slide.style.left = '50%';
+        slide.style.transform = 'translate(-50%, -50%)';
       });
+      
+      // Fix active slide positioning
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+        .iphone-small .slide.active {
+          position: absolute !important;
+          top: 50% !important;
+          left: 50% !important;
+          transform: translate(-50%, -45%) !important;
+          margin-top: 0 !important;
+          padding-bottom: 60px !important;
+          max-height: 70vh !important;
+          overflow-y: auto !important;
+        }
+      `;
+      document.head.appendChild(styleSheet);
       
       // Fix navigation position
       const navigation = document.querySelector('.navigation');
@@ -2097,28 +2382,140 @@
     
     // Fix charts for all mobile devices
     if (window.innerWidth < 768) {
-      const charts = [
-        Chart.getChart('financialChart'),
-        Chart.getChart('marketChart'),
-        Chart.getChart('roiChart')
-      ].filter(chart => chart);
-      
-      charts.forEach(chart => {
-        if (chart) {
-          // Simplify charts on mobile
-          if (chart.options && chart.options.plugins && chart.options.plugins.legend) {
-            chart.options.plugins.legend.position = 'bottom';
-            chart.options.plugins.legend.labels = {
-              boxWidth: 12,
-              padding: 10,
-              font: { family: 'Georgia', size: 10 }
-            };
+      // Safely check for charts (only try to access if they exist)
+      // Wait a bit to make sure charts are initialized
+      setTimeout(() => {
+        try {
+          const charts = [];
+          if (typeof Chart !== 'undefined') {
+            const financialChart = Chart.getChart('financialChart');
+            const marketChart = Chart.getChart('marketChart');
+            const roiChart = Chart.getChart('roiChart');
+            
+            if (financialChart) charts.push(financialChart);
+            if (marketChart) charts.push(marketChart);
+            if (roiChart) charts.push(roiChart);
           }
           
-          // Update the chart
-          chart.update();
+          charts.forEach(chart => {
+            if (chart && chart.options && chart.options.plugins && chart.options.plugins.legend) {
+              chart.options.plugins.legend.position = 'bottom';
+              chart.options.plugins.legend.labels = {
+                boxWidth: 12,
+                padding: 10,
+                font: { family: 'Georgia', size: 10 }
+              };
+              
+              // Update the chart
+              chart.update();
+            }
+          });
+        } catch (e) {
+          // Silently handle any errors with charts
+          console.log('Chart update skipped');
         }
-      });
+      }, 1000);
+    }
+  });
+</script>
+
+<script>
+  // Handle orientation changes
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initial check for orientation
+    handleOrientationChange();
+    
+    // Listen for orientation changes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+    
+    function handleOrientationChange() {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const slides = document.querySelectorAll('.slide');
+      const slideContainer = document.querySelector('.slide-container');
+      
+      if (isLandscape && window.innerWidth <= 915) {
+        // Add landscape class to body
+        document.body.classList.add('landscape-mode');
+        
+        // Fix slide container for landscape
+        if (slideContainer) {
+          slideContainer.style.height = 'auto';
+          slideContainer.style.minHeight = '100vh';
+          slideContainer.style.overflow = 'visible';
+          slideContainer.style.paddingTop = '40px';
+        }
+        
+        // Adjust all slides for landscape viewing
+        slides.forEach(slide => {
+          slide.style.position = 'absolute';
+          slide.style.opacity = '0';
+          slide.style.visibility = 'hidden';
+          slide.style.maxHeight = 'calc(100vh - 110px)';
+          slide.style.margin = '0 auto';
+          slide.style.left = '50%';
+          slide.style.transform = 'translateX(-50%)';
+        });
+        
+        // Fix active slide for landscape
+        const activeSlide = document.querySelector('.slide.active');
+        if (activeSlide) {
+          activeSlide.style.position = 'relative';
+          activeSlide.style.opacity = '1';
+          activeSlide.style.visibility = 'visible';
+          activeSlide.style.left = '0';
+          activeSlide.style.transform = 'none';
+          activeSlide.style.margin = '0 auto 60px';
+          activeSlide.style.top = '0';
+          activeSlide.style.display = 'block';
+          activeSlide.style.width = '90%';
+          activeSlide.style.maxWidth = '800px';
+        }
+        
+        // Fix navigation for landscape
+        const navigation = document.querySelector('.navigation');
+        if (navigation) {
+          navigation.style.position = 'fixed';
+          navigation.style.bottom = '10px';
+          navigation.style.width = '100%';
+          navigation.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+          navigation.style.padding = '5px 0';
+          navigation.style.zIndex = '100';
+        }
+      } else {
+        // Remove landscape class
+        document.body.classList.remove('landscape-mode');
+        
+        // If small iOS device, keep those optimizations
+        if (!/iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth > 375) {
+          // Reset styles only if not a small iOS device
+          if (slideContainer) {
+            slideContainer.style.height = '';
+            slideContainer.style.minHeight = '';
+            slideContainer.style.overflow = '';
+            slideContainer.style.paddingTop = '';
+          }
+          
+          // Reset all slides
+          slides.forEach(slide => {
+            if (!slide.classList.contains('active')) {
+              slide.style.position = '';
+              slide.style.opacity = '';
+              slide.style.visibility = '';
+              slide.style.maxHeight = '';
+              slide.style.margin = '';
+              slide.style.left = '';
+              slide.style.transform = '';
+            }
+          });
+        }
+      }
+      
+      // Force a redraw of the current slide
+      const currentSlideIndex = parseInt(document.querySelector('.slide-number')?.textContent.split('/')[0]?.trim() || '1') - 1;
+      if (!isNaN(currentSlideIndex) && typeof window.showSlide === 'function') {
+        window.showSlide(currentSlideIndex);
+      }
     }
   });
 </script>
