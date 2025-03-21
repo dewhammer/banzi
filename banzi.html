@@ -1328,17 +1328,11 @@
         font-size: 12px;
       }
       
-      /* Different card colors */
-      .bento-card:nth-child(3n+1) {
-        border-top: 3px solid #e60000;
-      }
-      
-      .bento-card:nth-child(3n+2) {
-        border-top: 3px solid #2f3e75;
-      }
-      
+      /* Change all bento card colors to red */
+      .bento-card:nth-child(3n+1),
+      .bento-card:nth-child(3n+2),
       .bento-card:nth-child(3n+3) {
-        border-top: 3px solid #ffa500;
+        border-top: 3px solid #e60000;
       }
       
       /* Specifically modify the original tables */
@@ -1404,6 +1398,58 @@
         .bento-container {
           display: none;
         }
+      }
+    }
+    
+    /* Fix Bento card colors to use only red */
+    @media screen and (max-width: 600px) and (orientation: portrait) {
+      /* Change all bento card colors to red */
+      .bento-card:nth-child(3n+1),
+      .bento-card:nth-child(3n+2),
+      .bento-card:nth-child(3n+3) {
+        border-top: 3px solid #e60000;
+      }
+      
+      /* Fix double scrolling in landscape mode */
+      .slide.active {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+      }
+
+      /* Ensure body doesn't scroll when slide is active */
+      body.active-slide-scrolling {
+        overflow: hidden;
+        height: 100%;
+      }
+
+      /* Fix for the metric card to use only red */
+      .metric-card {
+        border-top: 3px solid #e60000;
+      }
+    }
+
+    /* Add landscape-specific fix for scrolling */
+    @media screen and (orientation: landscape) {
+      body {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .slide-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+      
+      .slide.active {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-height: calc(100vh - 120px);
       }
     }
   </style>
@@ -3079,9 +3125,10 @@
                 description.className = 'bento-value';
                 description.textContent = cells[1].textContent;
                 
+                // Display percentage without 'Revenue:' prefix
                 const percentage = document.createElement('div');
                 percentage.className = 'bento-label';
-                percentage.textContent = 'Revenue: ' + cells[2].textContent;
+                percentage.textContent = cells[2].textContent;
                 
                 card.appendChild(header);
                 card.appendChild(description);
@@ -3358,6 +3405,47 @@
         timeout = setTimeout(() => func.apply(context, args), wait);
       };
     }
+  });
+</script>
+
+<script>
+  // Add touch event listeners to handle scroll locking
+  document.addEventListener('DOMContentLoaded', function() {
+    // Flag to track if a slide is being scrolled
+    let isSlideScrolling = false;
+    
+    // Find all slides
+    const slides = document.querySelectorAll('.slide');
+    
+    // Add touch event listeners to each slide
+    slides.forEach(slide => {
+      slide.addEventListener('touchstart', function() {
+        if (slide.classList.contains('active')) {
+          isSlideScrolling = true;
+          document.body.classList.add('active-slide-scrolling');
+        }
+      }, { passive: true });
+      
+      slide.addEventListener('touchend', function() {
+        isSlideScrolling = false;
+        // Add a small delay before removing the class to prevent jumps
+        setTimeout(() => {
+          document.body.classList.remove('active-slide-scrolling');
+        }, 100);
+      }, { passive: true });
+    });
+    
+    // Prevent body scrolling when touching outside slides in landscape
+    document.addEventListener('touchmove', function(e) {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      if (isLandscape && !isSlideScrolling) {
+        // Check if touch is not inside an active slide
+        const activeSlide = document.querySelector('.slide.active');
+        if (!activeSlide || !activeSlide.contains(e.target)) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
   });
 </script>
 
